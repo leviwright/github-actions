@@ -11,6 +11,8 @@ userToken=$2
 
 echo $targetEnv
 echo $userToken
+echo $github.actor
+echo $github
 
 if [ $# -ne 2 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
 then
