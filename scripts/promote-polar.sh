@@ -8,11 +8,11 @@ production=production
 envs=( $development $test $staging $production )
 targetEnv=$1
 userToken=$2
-actor=$3 | jq -R 
+actor=$3
 
 echo $targetEnv
 echo $userToken
-echo $actor
+echo $actor | jq -R 
 
 if [ $# -ne 3 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
 then
