@@ -7,9 +7,10 @@ production=production
 
 envs=( $development $test $staging $production )
 targetEnv=$1
+userToken=2
 
 
-if [ $# -ne 1 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
+if [ $# -ne 2 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
 then
 echo "Invalid argument - must provide only one argument with any of the following values: 'development', 'test', 'staging' or 'production'"
 exit 1
@@ -31,6 +32,7 @@ done < "$input"
 
 git checkout -b promote-polar-dev-to-test
 echo "Some Text" > "./policies/environments/test.polar"
+git config user.email ${github.actor}
 git status
 git add -A
 git commit -m "making a new branch"
