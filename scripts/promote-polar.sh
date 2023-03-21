@@ -15,6 +15,9 @@ echo "Invalid argument - must provide only one argument with any of the followin
 exit 1
 fi
 
+content=`cat ./policies/environments/development.polar`
+echo $content
+
 
 input="../policies/environments/development.polar"
 while IFS= read -r line
