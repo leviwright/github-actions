@@ -28,7 +28,7 @@ do
   ((index++))
   fi
 
-
+git branch
 
 
 done < "$input"
