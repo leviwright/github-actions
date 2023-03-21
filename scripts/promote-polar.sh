@@ -7,7 +7,7 @@ production=production
 
 envs=( $development $test $staging $production )
 targetEnv=$1
-userToken=2
+userToken=$2
 
 
 if [ $# -ne 2 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
