@@ -39,7 +39,7 @@ jobs:
         run: bash scripts/promote-polar.sh test
       - name: 
         run: |
-          content=`cat ./policies/environment/development.polar`
+          content=`cat ./policies/environments/development.polar`
           echo $content
           
       - run: echo "🍏 This job's status is ${{ job.status }}."
