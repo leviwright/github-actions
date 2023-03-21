@@ -36,5 +36,5 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - name: Promote development.polar to test.polar
-        run: bash scripts/promote-polar.sh
+        run: bash scripts/promote-polar.sh test
       - run: echo "🍏 This job's status is ${{ job.status }}."
