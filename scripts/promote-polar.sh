@@ -27,11 +27,9 @@ do
   echo $index
   ((index++))
   fi
-
-git branch
-
-
 done < "$input"
+
+git checkout -b promote-polar-dev-to-test
 
 echo "TOTALLY RAN THE SCRIPT! WOOP WOOP!"
 echo $input
