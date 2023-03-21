@@ -19,7 +19,8 @@ content=`cat ./policies/environments/development.polar`
 echo $content
 
 
-input="../policies/environments/development.polar"
+input="./policies/environments/development.polar"
+echo $input
 while IFS= read -r line
 do
   echo "$line"
