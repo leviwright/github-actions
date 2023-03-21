@@ -30,6 +30,12 @@ do
 done < "$input"
 
 git checkout -b promote-polar-dev-to-test
+echo "Some Text" > "./policies/environments/test.polar"
+git status
+git add -A
+git commit -m "making a new branch"
+git push origin promote-polar-dev-to-test
+
 
 echo "TOTALLY RAN THE SCRIPT! WOOP WOOP!"
 echo $input
