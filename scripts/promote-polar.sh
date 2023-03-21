@@ -24,9 +24,10 @@ do
   if [ $index == 1 ]
   then
   echo "this line should not make it"
-  index=$((index++))
   echo $index
   fi
+  ((index++))
+  
 
 done < "$input"
 
