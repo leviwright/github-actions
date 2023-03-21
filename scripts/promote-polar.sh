@@ -15,9 +15,6 @@ echo "Invalid argument - must provide only one argument with any of the followin
 exit 1
 fi
 
-#content=github-actions/policies/environments/development.polar
-
-
 
 input="../policies/environments/development.polar"
 while IFS= read -r line
