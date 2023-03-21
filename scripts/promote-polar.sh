@@ -16,10 +16,18 @@ exit 1
 fi
 
 
-input="./policies/environments/development.polar"
+input="./policies/environments/development.polar" #do some interpolation here for input
+index=1
 while IFS= read -r line
 do
   echo "$line"
+  if [ $index == 1 ]
+  then
+  echo "this line should not make it"
+  $index++
+  echo $index
+  fi
+
 done < "$input"
 
 echo "TOTALLY RAN THE SCRIPT! WOOP WOOP!"
