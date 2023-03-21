@@ -9,6 +9,8 @@ envs=( $development $test $staging $production )
 targetEnv=$1
 userToken=$2
 
+echo $targetEnv
+echo $userToken
 
 if [ $# -ne 2 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
 then
