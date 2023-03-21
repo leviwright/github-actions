@@ -24,7 +24,7 @@ do
   if [ $index == 1 ]
   then
   echo "this line should not make it"
-  $index++
+  index=$((index++))
   echo $index
   fi
 
