@@ -15,17 +15,15 @@ echo "Invalid argument - must provide only one argument with any of the followin
 exit 1
 fi
 
-#content=$(curl -L https://raw.githubusercontent.com/LumioHX/lumio-oso/main/policies/environments/development.polar?token=GHSAT0AAAAAABYFPQFLVV5FFQ4TARUPFMTCZAY5GYQ) 
+#content=github-actions/policies/environments/development.polar
 
 
 
-
-LINE=1
-
-#while read -r CURRENT_LINE
-  #do
-    #echo "$LINE: $CURRENT_LINE"
-    #((LINE++))
-#done < $content
+input="/policies/environments/development.polar"
+while IFS= read -r line
+do
+  echo "$line"
+done < "$input"
 
 echo "TOTALLY RAN THE SCRIPT! WOOP WOOP!"
+echo $input
