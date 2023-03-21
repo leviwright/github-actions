@@ -25,9 +25,11 @@ do
   then
   echo "this line should not make it"
   echo $index
-  fi
   ((index++))
-  
+  fi
+
+
+
 
 done < "$input"
 
