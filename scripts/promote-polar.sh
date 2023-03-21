@@ -8,7 +8,7 @@ production=production
 envs=( $development $test $staging $production )
 targetEnv=$1
 userToken=$2
-actor=$3
+actor=$3 | jq -R 
 
 echo $targetEnv
 echo $userToken
