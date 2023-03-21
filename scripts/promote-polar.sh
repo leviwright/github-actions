@@ -36,7 +36,8 @@ done < "$input"
 
 git checkout -b promote-polar-dev-to-test
 echo "Some Text" > "./policies/environments/test.polar"
-git config user.email $actor
+git config user.name $actor
+git config user.email "Your email"
 git status
 git add -A
 git commit -m "making a new branch"
