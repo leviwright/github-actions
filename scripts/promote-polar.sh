@@ -19,7 +19,7 @@ fi
 
 
 
-input="~/policies/environments/development.polar"
+input="../policies/environments/development.polar"
 while IFS= read -r line
 do
   echo "$line"
