@@ -24,6 +24,15 @@ exit 1
 fi
 
 
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+ (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bash_profile
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+echo "about to install gh"
+brew install gh
+git checkout main #just to be safe
+git pull origin main #just to be safe
+git checkout -b promote-polar-dev-to-test #figure out a unique way to version branches or something? 
+
 sourceFile="./policies/environments/development.polar" #do some interpolation here for input
 isPastCommentSection=false
 while IFS= read -r line
@@ -39,16 +48,6 @@ do
   fi
 done < "$sourceFile"
 
-
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
- (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bash_profile
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-echo "about to install gh"
-brew install gh
-git checkout main #just to be safe
-git pull origin main #just to be safe
-git checkout -b promote-polar-dev-to-test #figure out a unique way to version branches or something? 
-#echo $output >> "./policies/environments/test.polar"
 git config user.name $actor
 git config user.email "levi.wright@lumio.com" #figure out how to get user email
 git status
