@@ -29,8 +29,8 @@ do
   echo "$line" 
   if [ $index == 1 ]
   then
-  echo "this line should not make it"
-  echo $index
+  #echo "this line should not make it"
+  #echo $index
   ((index++))
   fi
 done < "$input"
