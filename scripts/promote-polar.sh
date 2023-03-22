@@ -36,6 +36,9 @@ done < "$input"
 
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+ (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bash_profile
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+echo "about to install gh"
 brew install gh
 git branch
 git checkout main
