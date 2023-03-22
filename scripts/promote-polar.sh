@@ -32,7 +32,7 @@ do
   #echo $index
   ((index++))
   fi
-  if [ $index > 1 ]
+  if [ $index -gt 1 ]
   then 
     echo "index past 1 ======="
     echo "$line" 
