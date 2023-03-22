@@ -31,11 +31,11 @@ do
   echo "$line" 
   if [ $index == 1 ]
   then
-  newContent+="${line}"
   echo "this line should not make it"
   echo $index
   ((index++))
   fi
+ newContent+="${line}"
 done < "$input"
 
 echo "====>>>>>>>"
