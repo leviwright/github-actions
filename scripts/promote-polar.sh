@@ -30,7 +30,7 @@ do
   if [  $index -gt 1  ]
   then 
     echo $line
-    #$line >> "./policies/environments/test.polar"
+    echo $line >> "./policies/environments/test.polar"
   fi
   ((index++))
 done < "$input"
