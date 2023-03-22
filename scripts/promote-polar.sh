@@ -22,18 +22,20 @@ exit 1
 fi
 
 
-
-input="./policies/environments/development.polar" #do some interpolation here for input
-index=1
+sourceFile="./policies/environments/development.polar" #do some interpolation here for input
+isPastCommentSection=false
 while IFS= read -r line
 do
-  if [  $index -gt 1  ]
+  if [ isPastCommentSection == true ]
   then 
     echo $line
     echo $line >> "./policies/environments/test.polar"
   fi
-  ((index++))
-done < "$input"
+  if [ $line == "# -- End Comment Section --" ]
+  then 
+    isPastCommentSection = true
+  fi
+done < "$sourceFile"
 
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -57,4 +59,4 @@ git push origin promote-polar-dev-to-test
 
 
 echo "TOTALLY RAN THE SCRIPT! WOOP WOOP!"
-echo $input
+echo $sourceFile
