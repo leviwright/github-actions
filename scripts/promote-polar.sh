@@ -53,7 +53,7 @@ git status
 git commit -m "making a new branch"
 git status
 git push origin promote-polar-dev-to-test
-gh pr create
+ gh pr create --title "Promoting dev polar file contents to test polar file" --body "Most recent changes"
 
 
 echo "TOTALLY RAN THE SCRIPT! WOOP WOOP!"
