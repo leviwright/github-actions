@@ -26,21 +26,13 @@ input="./policies/environments/development.polar" #do some interpolation here fo
 index=1
 while IFS= read -r line
 do
-  #if [ $index == 1 ]
-  #then
-  #echo "this line should not make it"
-  #echo $index
-  #echo $line
-  #fi
   if [  $index -gt 1  ]
   then 
-    echo "index past 1 ======="
     echo "$line" 
   fi
   ((index++))
-done < "$input"
 
-echo $line "FINISHED"
+done < "$input"
 
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
