@@ -23,12 +23,13 @@ echo "Invalid argument - must provide only one argument with any of the followin
 exit 1
 fi
 
-
+echo "Installing homebrew to obtain needed packages..."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
  (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bash_profile
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-echo "about to install gh"
+echo "Installing github cli tool to enable easy pull request creation..."
 brew install gh
+echo "Ensure we are start with the latest changes on the master branch..."
 git checkout main #just to be safe
 git pull origin main #just to be safe
 git checkout -b promote-polar-dev-to-test #figure out a unique way to version branches or something? 
@@ -56,8 +57,18 @@ git status
 git commit -m "making a new branch"
 git status
 git push origin promote-polar-dev-to-test
- gh pr create --title "Promoting dev polar file contents to test polar file" --body "Most recent changes"
+gh pr create --title "Promoting dev polar file contents to test polar file" --body "Most recent changes"
 
 
 echo "TOTALLY RAN THE SCRIPT! WOOP WOOP!"
 echo $sourceFile
+
+
+
+
+
+
+
+
+
+
