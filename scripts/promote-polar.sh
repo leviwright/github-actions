@@ -31,7 +31,7 @@ do
   if [  $index -gt 1  ]
   then 
     echo "====>>>>> printing line" "$line" 
-    output+="${line}\n"
+    output+="${line}"\n
   fi
   ((index++))
 
