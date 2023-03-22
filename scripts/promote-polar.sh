@@ -4,6 +4,7 @@ development=development
 test=test
 staging=staging
 production=production
+endCommentTrigger="# -- End Comment Section --"
 
 envs=( $development $test $staging $production )
 targetEnv=$1
@@ -13,6 +14,7 @@ actor=$3
 echo $targetEnv
 echo $userToken
 echo $actor
+
 
 if [ $# -ne 3 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
 then
@@ -26,12 +28,12 @@ sourceFile="./policies/environments/development.polar" #do some interpolation he
 isPastCommentSection=false
 while IFS= read -r line
 do
-  if [ isPastCommentSection = true ]
+  if [ $isPastCommentSection = true ]
   then 
     echo $line
     echo $line >> "./policies/environments/test.polar"
   fi
-  if [ $line = "# -- End Comment Section --" ]
+  if [[ "$line" == *"$endCommentTrigger"* ]]
   then 
     isPastCommentSection=true
   fi
