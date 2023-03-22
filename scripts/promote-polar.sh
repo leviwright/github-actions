@@ -27,12 +27,29 @@ echo "Installing homebrew to obtain needed packages..."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
  (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bash_profile
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 echo "Installing github cli tool to enable easy pull request creation..."
 brew install gh
 echo "Ensure we are start with the latest changes on the master branch..."
-git checkout main #just to be safe
-git pull origin main #just to be safe
+git checkout main 
+git pull origin main
+echo "Creating new branch before enacting changes..."
 git checkout -b promote-polar-dev-to-test #figure out a unique way to version branches or something? 
+
+targetFile="./policies/environments/test.polar" #do some interpolation here for input
+while IFS= read -r line
+do
+  #if [ $isPastCommentSection = true ]
+  #then 
+    #echo $line
+    #echo '' >> "./policies/environments/test.polar"
+  #fi
+  #if [[ "$line" == *"$endCommentTrigger"* ]]
+  #then 
+    #isPastCommentSection=true
+  #fi
+  sed `s/\${endCommentTrigger}/` $targetfile
+done < "$sourceFile"
 
 sourceFile="./policies/environments/development.polar" #do some interpolation here for input
 isPastCommentSection=false
@@ -49,19 +66,22 @@ do
   fi
 done < "$sourceFile"
 
+echo "Configuring temporary git credentials on linux box to match trigger user"
 git config user.name $actor
 git config user.email "levi.wright@lumio.com" #figure out how to get user email
+echo "Adding and committing changes to new branch..."
 git status
 git add -A
 git status
-git commit -m "making a new branch"
+git commit -m "Promoting changes from ENV to ENV..."
 git status
+echo "Pushing changes to remote..."
 git push origin promote-polar-dev-to-test
+echo "Creating pull request..."
 gh pr create --title "Promoting dev polar file contents to test polar file" --body "Most recent changes"
 
 
-echo "TOTALLY RAN THE SCRIPT! WOOP WOOP!"
-echo $sourceFile
+echo "Success!"
 
 
 
