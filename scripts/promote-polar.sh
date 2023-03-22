@@ -26,10 +26,12 @@ fi
 
 input="./policies/environments/development.polar" #do some interpolation here for input
 index=1
+echo "========>>>>> raw input" $input
 while IFS= read -r line
 do
   if [ $index > 1 ]
   then
+  echo "executing time number" $index
   newContent+="${line}"
   echo "=====>>>>>" $newContent $index
   fi
