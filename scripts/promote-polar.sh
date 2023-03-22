@@ -54,6 +54,7 @@ git commit -m "making a new branch"
 git status
 git push origin promote-polar-dev-to-test
 git request-pull v1.0 origin main
+gh pr create
 
 
 echo "TOTALLY RAN THE SCRIPT! WOOP WOOP!"
