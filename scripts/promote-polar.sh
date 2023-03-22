@@ -26,12 +26,16 @@ input="./policies/environments/development.polar" #do some interpolation here fo
 index=1
 while IFS= read -r line
 do
-  echo "$line" 
   if [ $index == 1 ]
   then
   #echo "this line should not make it"
   #echo $index
   ((index++))
+  fi
+  if [ $index > 1 ]
+  then 
+    echo "index past 1 ======="
+    echo "$line" 
   fi
 done < "$input"
 
