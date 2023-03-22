@@ -31,6 +31,7 @@ do
   if [ $index > 1 ]
   then
   newContent+="${line}"
+  echo "=====>>>>>" $newContent $index
   fi
   ((index++))
 
