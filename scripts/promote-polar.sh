@@ -28,14 +28,12 @@ input="./policies/environments/development.polar" #do some interpolation here fo
 index=1
 while IFS= read -r line
 do
-  echo "$line" 
-  if [ $index == 1 ]
+  if [ $index > 1 ]
   then
-  echo "this line should not make it"
-  echo $index
-  ((index++))
+  newContent+="${line}"
   fi
- newContent+="${line}"
+  ((index++))
+
 done < "$input"
 
 echo "====>>>>>>>"
