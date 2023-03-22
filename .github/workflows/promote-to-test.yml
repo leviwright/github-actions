@@ -37,6 +37,8 @@ jobs:
           ls ${{ github.workspace }}
       - name: Promote development.polar to test.polar
         run: bash scripts/promote-polar.sh test ${{ github.token }} ${{ github.actor }}
+        env:
+          GH_TOKEN: ${{ github.token }}
       #- name: Create Branch
        # uses: peterjgrainger/action-create-branch@v2.0.1
         #env:
