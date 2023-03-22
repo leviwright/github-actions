@@ -30,6 +30,7 @@ do
   then
   echo "this line should not make it"
   echo $index
+  echo $line
   ((index++))
   fi
   if [  $index -gt 1  ]
