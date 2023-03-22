@@ -29,9 +29,9 @@ index=1
 while IFS= read -r line
 do
   echo "$line" 
-  newContent+="${line}"
   if [ $index == 1 ]
   then
+  newContent+="${line}"
   echo "this line should not make it"
   echo $index
   ((index++))
