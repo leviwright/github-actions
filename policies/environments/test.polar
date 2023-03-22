@@ -1,5 +1,1 @@
-# Initial Development version
-
-actor Test {
-
-}
+Some Text
