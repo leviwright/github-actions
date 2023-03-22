@@ -26,7 +26,6 @@ fi
 
 input="./policies/environments/development.polar" #do some interpolation here for input
 index=1
-echo "========>>>>> raw input" $input
 while IFS= read -r line
 do
   if [ $index > 1 ]
@@ -38,7 +37,7 @@ do
   ((index++))
 
 done < "$input"
-
+echo "========>>>>> raw input" $input
 echo "====>>>>>>>"
 echo $newContent
 echo "====>>>>>>>"
