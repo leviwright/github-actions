@@ -34,6 +34,7 @@ do
   fi
 done < "$input"
 
+brew install gh
 git branch
 git checkout main
 git pull origin main
