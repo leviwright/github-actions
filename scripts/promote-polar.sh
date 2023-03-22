@@ -43,7 +43,9 @@ git config user.name $actor
 git config user.email "levi.wright@lumio.com"
 git status
 git add -A
+git status
 git commit -m "making a new branch"
+git status
 git push origin promote-polar-dev-to-test
 
 
