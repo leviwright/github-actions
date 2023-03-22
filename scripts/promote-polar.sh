@@ -28,7 +28,7 @@ while IFS= read -r line
 do
   if [  $index -gt 1  ]
   then 
-    echo "$line" 
+    echo "====>>>>> printing line" "$line" 
   fi
   ((index++))
 
