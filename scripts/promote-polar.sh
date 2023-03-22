@@ -14,33 +14,27 @@ echo $targetEnv
 echo $userToken
 echo $actor
 
-newContent=''
-
 if [ $# -ne 3 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
 then
-#Update this message to be correct. 
+#Update this message to be correct.
 echo "Invalid argument - must provide only one argument with any of the following values: 'development', 'test', 'staging' or 'production'"
 exit 1
 fi
 
 
-input=`cat ./policies/environments/development.polar` #do some interpolation here for input
-echo $input "---->>>>>>"
+input="./policies/environments/development.polar" #do some interpolation here for input
 index=1
 while IFS= read -r line
 do
-  if [ $index > 1 ]
+  echo "$line" 
+  if [ $index == 1 ]
   then
-  echo "executing time number" $index
-  newContent+="${line}"
-  echo "=====>>>>>" $newContent $index
-  fi
+  echo "this line should not make it"
+  echo $index
   ((index++))
+  fi
 done < "$input"
 
-echo "====>>>>>>>"
-echo $newContent
-echo "====>>>>>>>"
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
  (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bash_profile
