@@ -31,13 +31,13 @@ do
   echo "this line should not make it"
   echo $index
   echo $line
-  ((index++))
   fi
   if [  $index -gt 1  ]
   then 
     echo "index past 1 ======="
     echo "$line" 
   fi
+  ((index++))
 done < "$input"
 
 
