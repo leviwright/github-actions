@@ -24,19 +24,20 @@ exit 1
 fi
 
 
-input="./policies/environments/development.polar" #do some interpolation here for input
+input=`cat ./policies/environments/development.polar` #do some interpolation here for input
+echo $input "---->>>>>>"
 index=1
 while IFS= read -r line
 do
-  if [ $index > 2 ]
+  if [ $index > 1 ]
   then
   echo "executing time number" $index
   newContent+="${line}"
   echo "=====>>>>>" $newContent $index
   fi
   ((index++))
-
 done < "$input"
+
 echo "====>>>>>>>"
 echo $newContent
 echo "====>>>>>>>"
