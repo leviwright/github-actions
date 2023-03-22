@@ -31,13 +31,13 @@ do
   if [  $index -gt 1  ]
   then 
     echo "====>>>>> printing line" "$line" 
-    output+="${line}"\n
+    output+="${line}"
   fi
   ((index++))
 
 done < "$input"
 
-echo "^^^^^^^^^^^^^" $output
+echo "^^^^^^^^^^^^^" $output | tr " " "\n"
 
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
