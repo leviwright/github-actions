@@ -31,13 +31,13 @@ do
   if [  $index -gt 1  ]
   then 
     echo "====>>>>> printing line" "$line" 
-    output+="${line}"
+    output+="${line}\n"
   fi
   ((index++))
 
 done < "$input"
 
-echo "^^^^^^^^^^^^^" $output | tr " " "\n"
+echo "^^^^^^^^^^^^^" "$output"
 
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -48,7 +48,7 @@ brew install gh
 git checkout main #just to be safe
 git pull origin main #just to be safe
 git checkout -b promote-polar-dev-to-test #figure out a unique way to version branches or something? 
-echo "Some Text" > "./policies/environments/test.polar"
+echo $output > "./policies/environments/test.polar"
 git config user.name $actor
 git config user.email "levi.wright@lumio.com" #figure out how to get user email
 git status
