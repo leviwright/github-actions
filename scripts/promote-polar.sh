@@ -21,7 +21,6 @@ echo "Invalid argument - must provide only one argument with any of the followin
 exit 1
 fi
 
-output=''
 
 input="./policies/environments/development.polar" #do some interpolation here for input
 index=1
@@ -32,17 +31,14 @@ do
   #echo "this line should not make it"
   #echo $index
   #echo $line
-  #fi
+  fi
   if [  $index -gt 1  ]
   then 
     echo "index past 1 ======="
     echo "$line" 
-    output+="${line}"
   fi
   ((index++))
 done < "$input"
-
-echo $output "*******"
 
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
