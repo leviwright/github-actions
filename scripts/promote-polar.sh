@@ -21,6 +21,8 @@ echo "Invalid argument - must provide only one argument with any of the followin
 exit 1
 fi
 
+output=''
+
 
 input="./policies/environments/development.polar" #do some interpolation here for input
 index=1
@@ -29,6 +31,7 @@ do
   if [  $index -gt 1  ]
   then 
     echo "====>>>>> printing line" "$line" 
+    output+="${line}\n"
   fi
   ((index++))
 
