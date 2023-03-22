@@ -34,6 +34,8 @@ do
   fi
 done < "$input"
 
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install gh
 git branch
 git checkout main
