@@ -24,7 +24,7 @@ exit 1
 fi
 
 
-input="./policies/environments/development.polar" #do some interpolation here for input
+input=`cat ./policies/environments/development.polar` #do some interpolation here for input
 index=1
 echo "========>>>>> raw input" $input
 while IFS= read -r line
