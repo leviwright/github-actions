@@ -14,8 +14,11 @@ echo $targetEnv
 echo $userToken
 echo $actor
 
+newContent=''
+
 if [ $# -ne 3 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
 then
+#Update this message to be correct. 
 echo "Invalid argument - must provide only one argument with any of the following values: 'development', 'test', 'staging' or 'production'"
 exit 1
 fi
@@ -25,7 +28,8 @@ input="./policies/environments/development.polar" #do some interpolation here fo
 index=1
 while IFS= read -r line
 do
-  echo "$line"
+  echo "$line" 
+  newContent+="${line}"
   if [ $index == 1 ]
   then
   echo "this line should not make it"
@@ -34,19 +38,21 @@ do
   fi
 done < "$input"
 
+echo "====>>>>>>>"
+echo $newContent
+echo "====>>>>>>>"
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
  (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bash_profile
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 echo "about to install gh"
 brew install gh
-git branch
-git checkout main
-git pull origin main
-git checkout -b promote-polar-dev-to-test
+git checkout main #just to be safe
+git pull origin main #just to be safe
+git checkout -b promote-polar-dev-to-test #figure out a unique way to version branches or something? 
 echo "Some Text" > "./policies/environments/test.polar"
 git config user.name $actor
-git config user.email "levi.wright@lumio.com"
+git config user.email "levi.wright@lumio.com" #figure out how to get user email
 git status
 git add -A
 git status
