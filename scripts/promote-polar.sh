@@ -21,7 +21,6 @@ echo "Invalid argument - must provide only one argument with any of the followin
 exit 1
 fi
 
-output=''
 
 
 input="./policies/environments/development.polar" #do some interpolation here for input
@@ -30,14 +29,10 @@ while IFS= read -r line
 do
   if [  $index -gt 1  ]
   then 
-    echo "====>>>>> printing line" "$line" 
-    output+="${line}\n"
+    $line >> "./policies/environments/test.polar"
   fi
   ((index++))
-
 done < "$input"
-
-echo "^^^^^^^^^^^^^" "$output"
 
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -48,7 +43,7 @@ brew install gh
 git checkout main #just to be safe
 git pull origin main #just to be safe
 git checkout -b promote-polar-dev-to-test #figure out a unique way to version branches or something? 
-echo $output > "./policies/environments/test.polar"
+#echo $output >> "./policies/environments/test.polar"
 git config user.name $actor
 git config user.email "levi.wright@lumio.com" #figure out how to get user email
 git status
