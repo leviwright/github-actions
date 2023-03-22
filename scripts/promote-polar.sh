@@ -28,11 +28,11 @@ while IFS= read -r line
 do
   if [ $index == 1 ]
   then
-  #echo "this line should not make it"
-  #echo $index
+  echo "this line should not make it"
+  echo $index
   ((index++))
   fi
-  if [ $index -gt 1 ]
+  if [  $index -gt 1  ]
   then 
     echo "index past 1 ======="
     echo "$line" 
