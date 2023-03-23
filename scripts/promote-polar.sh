@@ -34,7 +34,7 @@ echo "Ensure we are start with the latest changes on the master branch..."
 git checkout main 
 git pull origin main
 echo "Creating new branch before enacting changes..."
-branchName=`promote-polar-${targetEnv}-to-${sourceEnv}`
+branchName="promote-polar-${targetEnv}-to-${sourceEnv}"
 echo $branchName 'THIS IS THE BRANCH NAME'
 git checkout -b $branchName #figure out a unique way to version branches or something? 
 
