@@ -19,16 +19,18 @@ fi
 
 
 sourceEnv=''
-if [[ targetEnv == $test ]]
+if [[ "${targetEnv}" == $test ]]
 then
   sourceEnv=$development
-elif [[ targetEnv == $staging ]]; 
+elif [[ "${targetEnv}" == $staging ]]; 
 then
   sourceEnv=$test 
-elif [[ targetEnv == $production ]];
+elif [[ "${targetEnv}" == $production ]];
 then 
   sourceEnv=$staging 
 fi
+
+
 
 echo '=========' $targetEnv
 echo '=========' $sourceEnv
@@ -47,7 +49,7 @@ echo "Ensure we are start with the latest changes on the master branch..."
 git checkout main 
 git pull origin main
 echo "Creating new branch before enacting changes..."
-branchName="promote-polar-${targetEnv}-to-${sourceEnv}"
+branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
 echo $branchName 'THIS IS THE BRANCH NAME'
 git checkout -b $branchName
 
