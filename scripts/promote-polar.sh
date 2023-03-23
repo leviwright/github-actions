@@ -17,6 +17,7 @@ echo "Invalid invocation - must provide a target environemnt with any of the fol
 exit 1
 fi
 
+
 sourceEnv=''
 if [ targetEnv == $test ]
 then
@@ -27,6 +28,9 @@ then
 else [[ targetEnv == $production ]]; 
   sourceEnv=$staging 
 fi
+
+echo '=========' $targetEnv
+echo '=========' $sourceEnv
 
 echo "Attempting run to promote to:" $targetEnv
 echo "Run triggered by:" $actor
