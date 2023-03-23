@@ -38,13 +38,22 @@ echo '=========' $sourceEnv
 echo "Attempting run to promote to:" $targetEnv
 echo "Run triggered by:" $actor
 
-echo "Installing homebrew to obtain needed packages..."
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
- (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bash_profile
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# echo "Installing homebrew to obtain needed packages..."
+# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+#  (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bash_profile
+#     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-echo "Installing github cli tool to enable easy pull request creation..."
-brew install gh
+# echo "Installing github cli tool to enable easy pull request creation..."
+# brew install gh
+
+type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+&& sudo apt update \
+&& sudo apt install gh -y
+
+
 echo "Ensure we are start with the latest changes on the master branch..."
 git checkout main 
 git pull origin main
@@ -97,7 +106,7 @@ git status
 echo "Pushing changes to remote..."
 git push origin $branchName
 echo "Creating pull request..."
-gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to ${targetEnv} polar file."
+gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to ${targetEnv} polar file."
 
 
 echo "Success!"
