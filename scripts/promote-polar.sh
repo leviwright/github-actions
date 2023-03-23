@@ -19,13 +19,14 @@ fi
 
 
 sourceEnv=''
-if [ targetEnv == $test ]
+if [[ targetEnv == $test ]]
 then
   sourceEnv=$development
 elif [[ targetEnv == $staging ]]; 
 then
   sourceEnv=$test 
-else [[ targetEnv == $production ]]; 
+elif [[ targetEnv == $production ]];
+then 
   sourceEnv=$staging 
 fi
 
