@@ -67,7 +67,7 @@ do
 done < "$sourceFile"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
-#git config user.name $actor
+git config user.name $actor
 echo "Adding and committing changes to new branch..."
 git status
 git add -A
