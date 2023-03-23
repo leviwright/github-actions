@@ -41,9 +41,10 @@ lineToStart="`grep -n '# -- End Comment Section --' $targetFile | cut -d: -f 1`"
 ((lineToStart++))
 
 #==================================================================
-#-- Important -- uncomment and swap the line below if running locally on mac OS for debugging purposes, 
-# the '' following the -i flag is required because Mac OS uses the BSD version of sed that works slightly different. The linux OS
-# uses the GNU version which will behave differently with the -i flag.
+# Important -- uncomment and swap the line below if running locally on mac OS for debugging purposes, 
+# the '' following the -i flag is required for Mac users because Mac OS uses the BSD version of sed that
+# works slightly different than the Linux version. Linux uses the GNU version which will behave differently 
+# with the -i flag.
 #===================================================================
 
 #sed -i '' "${lineToStart},\$d" $targetFile
@@ -66,8 +67,7 @@ do
 done < "$sourceFile"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
-git config user.name $actor
-#git config user.email "levi.wright@lumio.com" #figure out how to get user email
+#git config user.name $actor
 echo "Adding and committing changes to new branch..."
 git status
 git add -A
@@ -77,7 +77,7 @@ git status
 echo "Pushing changes to remote..."
 git push origin promote-polar-dev-to-test
 echo "Creating pull request..."
-gh pr create --title "Promoting dev polar file contents to test polar file" --body "Most recent changes"
+gh pr create --title "Promoting dev polar file contents to test polar file" --body "@${actor} is making changes"
 
 
 echo "Success!"
