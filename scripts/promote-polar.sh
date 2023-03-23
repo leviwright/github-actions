@@ -38,13 +38,11 @@ git checkout -b promote-polar-dev-to-test #figure out a unique way to version br
 
 
 targetFile="./policies/environments/test.polar" #do some interpolation here for input
-lineToStart="`grep -n '# -- End Comment Section --' dummy.polar | cut -d: -f 1`"
+lineToStart="`grep -n '# -- End Comment Section --' $targetFile | cut -d: -f 1`"
 ((lineToStart++))
 
-echo $lineToStart
-echo "${lineToStart},\$d"
 
-sed -i '' "${lineToStart},\$d" $targetfile
+sed -i '' "${lineToStart},\$d" $targetFile
 
 
 sourceFile="./policies/environments/development.polar" #do some interpolation here for input
