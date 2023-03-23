@@ -36,27 +36,22 @@ git pull origin main
 echo "Creating new branch before enacting changes..."
 git checkout -b promote-polar-dev-to-test #figure out a unique way to version branches or something? 
 
-
 targetFile="./policies/environments/test.polar" #do some interpolation here for input
 lineToStart="`grep -n '# -- End Comment Section --' $targetFile | cut -d: -f 1`"
 ((lineToStart++))
 
+#==================================================================
+#-- Important -- uncomment and swap the line below if running locally on mac OS for debugging purposes, 
+# the '' following the -i flag is required because Mac OS uses the BSD version of sed that works slightly different. The linux OS
+# uses the GNU version which will behave differently with the -i flag.
+#===================================================================
 
 #sed -i '' "${lineToStart},\$d" $targetFile
 sed -i "${lineToStart},\$d" $targetFile
 
-sourceFile="./policies/environments/test.polar" #do some interpolation here for input
-isPastCommentSection=false
-echo "====>>> reading test file after cutting contents"
-while IFS= read -r line
-do
- echo $line
-done < "$sourceFile"
-
 
 sourceFile="./policies/environments/development.polar" #do some interpolation here for input
 isPastCommentSection=false
-echo "====>>> reading dev file after to replace test file contents"
 while IFS= read -r line
 do
   if [ $isPastCommentSection = true ]
@@ -72,7 +67,7 @@ done < "$sourceFile"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
 git config user.name $actor
-git config user.email "levi.wright@lumio.com" #figure out how to get user email
+#git config user.email "levi.wright@lumio.com" #figure out how to get user email
 echo "Adding and committing changes to new branch..."
 git status
 git add -A
