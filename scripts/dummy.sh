@@ -1,19 +1,10 @@
-endCommentTrigger="# -- End Comment Section --"
+#sed -i '' '/whatever/' dummy.polar
 
-sourceFile="../policies/environments/development.polar" #do some interpolation here for input
-isPastCommentSection=false
+lineToStart="`grep -n '# -- End Comment Section --' dummy.polar | cut -d: -f 1`"
+((lineToStart++))
 
+echo $lineToStart
+echo "${lineToStart},\$d"
 
+sed -i '' "${lineToStart},\$d" dummy.polar
 
-while IFS= read -r line
-do
-  if [ $isPastCommentSection = true ]
-  then 
-    echo $line
-    echo $line >> "../policies/environments/test.polar"
-  fi
-  if [[ "$line" == *"$endCommentTrigger"* ]]
-  then 
-    isPastCommentSection=true
-  fi
-done < "$sourceFile"

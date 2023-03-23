@@ -36,20 +36,16 @@ git pull origin main
 echo "Creating new branch before enacting changes..."
 git checkout -b promote-polar-dev-to-test #figure out a unique way to version branches or something? 
 
+
 targetFile="./policies/environments/test.polar" #do some interpolation here for input
-while IFS= read -r line
-do
-  #if [ $isPastCommentSection = true ]
-  #then 
-    #echo $line
-    #echo '' >> "./policies/environments/test.polar"
-  #fi
-  #if [[ "$line" == *"$endCommentTrigger"* ]]
-  #then 
-    #isPastCommentSection=true
-  #fi
-  sed `s/\${endCommentTrigger}/` $targetfile
-done < "$sourceFile"
+lineToStart="`grep -n '# -- End Comment Section --' dummy.polar | cut -d: -f 1`"
+((lineToStart++))
+
+echo $lineToStart
+echo "${lineToStart},\$d"
+
+sed -i '' "${lineToStart},\$d" $targetfile
+
 
 sourceFile="./policies/environments/development.polar" #do some interpolation here for input
 isPastCommentSection=false
