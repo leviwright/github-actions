@@ -1,29 +1,17 @@
-# This is a basic workflow that is manually triggered
-
 name: Promote Polar File From Dev to Test
-run-name: ${{ github.actor }} has manually queued a promotion of polar files from dev to test 🚀
-
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
+run-name: ${{ github.actor }} is updating polar file content from dev to test 🚀
 on:
   workflow_dispatch:
-    # Inputs the workflow accepts.
     inputs:
       name:
-        # Friendly description to be shown in the UI instead of 'name'
         description: 'Promote Polar Files From Dev to Test'
-        # Default value if no value is explicitly provided
         default: 'Promote Polar Files From Dev to Test'
         # Input has to be provided for the workflow to run
         required: false
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "greet"
-  Promote_Polar_From_Dev_To_Test:
-    # The type of runner that the job will run on
+  Polar_Dev_To_Test:
     runs-on: ubuntu-latest
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - run: echo "🎉 The job was manually triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"

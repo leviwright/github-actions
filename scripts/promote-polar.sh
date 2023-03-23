@@ -30,21 +30,8 @@ then
   sourceEnv=$staging 
 fi
 
-
-
-echo '=========' $targetEnv
-echo '=========' $sourceEnv
-
 echo "Attempting run to promote to:" $targetEnv
 echo "Run triggered by:" $actor
-
-# echo "Installing homebrew to obtain needed packages..."
-# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-#  (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bash_profile
-#     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-# echo "Installing github cli tool to enable easy pull request creation..."
-# brew install gh
 
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
@@ -57,13 +44,13 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 echo "Ensure we are start with the latest changes on the master branch..."
 git checkout main 
 git pull origin main
+
 echo "Creating new branch before enacting changes..."
 branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
 echo $branchName 'THIS IS THE BRANCH NAME'
 git checkout -b $branchName
 
-
-
+#Empty the contents of the target file to be ready for appending incoming content.
 targetFile="./policies/environments/${targetEnv}.polar"
 echo $targetFile "THIS IS THE TARGET FILE"
 lineToStart="`grep -n '# -- End Comment Section --' $targetFile | cut -d: -f 1`"
@@ -80,13 +67,12 @@ lineToStart="`grep -n '# -- End Comment Section --' $targetFile | cut -d: -f 1`"
 sed -i "${lineToStart},\$d" $targetFile
 
 
-sourceFile="./policies/environments/development.polar" #do some interpolation here for input
+sourceFile="./policies/environments/${sourceEnv}.polar" 
 isPastCommentSection=false
 while IFS= read -r line
 do
   if [ $isPastCommentSection = true ]
   then 
-    echo $line
     echo $line >> "./policies/environments/test.polar"
   fi
   if [[ "$line" == *"$endCommentTrigger"* ]]
