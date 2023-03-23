@@ -47,6 +47,7 @@ sed "${lineToStart},\$d" $targetFile
 
 sourceFile="./policies/environments/test.polar" #do some interpolation here for input
 isPastCommentSection=false
+echo "====>>> reading test file after cutting contents"
 while IFS= read -r line
 do
  echo $line
@@ -55,6 +56,7 @@ done < "$sourceFile"
 
 sourceFile="./policies/environments/development.polar" #do some interpolation here for input
 isPastCommentSection=false
+echo "====>>> reading dev file after to replace test file contents"
 while IFS= read -r line
 do
   if [ $isPastCommentSection = true ]
