@@ -42,7 +42,8 @@ lineToStart="`grep -n '# -- End Comment Section --' $targetFile | cut -d: -f 1`"
 ((lineToStart++))
 
 
-sed -i '' "${lineToStart},\$d" $targetFile
+#sed -i '' "${lineToStart},\$d" $targetFile
+sed "${lineToStart},\$d" $targetFile
 
 sourceFile="./policies/environments/test.polar" #do some interpolation here for input
 isPastCommentSection=false
