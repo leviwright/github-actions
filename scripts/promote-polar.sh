@@ -8,20 +8,20 @@ endCommentTrigger="# -- End Comment Section --"
 
 envs=( $development $test $staging $production )
 targetEnv=$1
-userToken=$2
-actor=$3
-
-echo $targetEnv
-echo $userToken
-echo $actor
+actor=$2
 
 
-if [ $# -ne 3 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
+if [ $# -ne 2 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
 then
 #Update this message to be correct.
-echo "Invalid argument - must provide only one argument with any of the following values: 'development', 'test', 'staging' or 'production'"
+echo "Invalid invocation - must provide a target environemnt with any of the following values: 'development', 'test', 'staging' or 'production' and the github actor"
 exit 1
 fi
+
+sourceEnv='development'
+
+echo "Attempting run to promote to:" $targetEnv
+echo "Run triggered by:" $actor
 
 echo "Installing homebrew to obtain needed packages..."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -34,9 +34,14 @@ echo "Ensure we are start with the latest changes on the master branch..."
 git checkout main 
 git pull origin main
 echo "Creating new branch before enacting changes..."
-git checkout -b promote-polar-dev-to-test #figure out a unique way to version branches or something? 
+branchName=`promote-polar-${targetEnv}-to-${sourceEnv}`
+echo $branchName 'THIS IS THE BRANCH NAME'
+git checkout -b $branchName #figure out a unique way to version branches or something? 
 
-targetFile="./policies/environments/test.polar" #do some interpolation here for input
+
+
+targetFile="./policies/environments/${targetEnv}.polar" #do some interpolation here for input
+echo $targetFile "THIS IS THE TARGET FILE"
 lineToStart="`grep -n '# -- End Comment Section --' $targetFile | cut -d: -f 1`"
 ((lineToStart++))
 
