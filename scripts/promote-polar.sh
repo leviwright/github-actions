@@ -13,12 +13,22 @@ actor=$2
 
 if [ $# -ne 2 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
 then
-#Update this message to be correct.
 echo "Invalid invocation - must provide a target environemnt with any of the following values: 'development', 'test', 'staging' or 'production' and the github actor"
 exit 1
 fi
 
-sourceEnv='development'
+sourceEnv=''
+
+if [ targetEnv == $test ]
+then
+  sourceEnv=$development
+elif [[ targetEnv == $staging ]]; 
+then
+  sourceEnv=$test 
+else [[ targetEnv == $production ]]; 
+then
+  sourceEnv=$staging 
+fi
 
 echo "Attempting run to promote to:" $targetEnv
 echo "Run triggered by:" $actor
@@ -36,11 +46,11 @@ git pull origin main
 echo "Creating new branch before enacting changes..."
 branchName="promote-polar-${targetEnv}-to-${sourceEnv}"
 echo $branchName 'THIS IS THE BRANCH NAME'
-git checkout -b $branchName #figure out a unique way to version branches or something? 
+git checkout -b $branchName
 
 
 
-targetFile="./policies/environments/${targetEnv}.polar" #do some interpolation here for input
+targetFile="./policies/environments/${targetEnv}.polar"
 echo $targetFile "THIS IS THE TARGET FILE"
 lineToStart="`grep -n '# -- End Comment Section --' $targetFile | cut -d: -f 1`"
 ((lineToStart++))
@@ -77,12 +87,12 @@ echo "Adding and committing changes to new branch..."
 git status
 git add -A
 git status
-git commit -m "Promoting changes from ENV to ENV..."
+git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..."
 git status
 echo "Pushing changes to remote..."
-git push origin promote-polar-dev-to-test
+git push origin $branchName
 echo "Creating pull request..."
-gh pr create --title "Promoting dev polar file contents to test polar file" --body "@${actor} is making changes"
+gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to ${targetEnv} polar file."
 
 
 echo "Success!"
