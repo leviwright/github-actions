@@ -97,7 +97,9 @@ do
 done < "$sourceFile"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
-git config user.name $actor
+#git config user.name $actor
+git config user.name "$(git log -n 1 --pretty=format:%an)"
+git config user.email "$(git log -n 1 --pretty=format:%ae)"
 echo "Adding and committing changes to new branch..."
 git status
 git add -A
