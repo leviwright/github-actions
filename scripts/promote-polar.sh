@@ -30,7 +30,7 @@ then
 fi
 
 echo "Attempting run to promote to:" $targetEnv
-echo "Run triggered by:" $actor
+echo "Run triggered by github user:" $actor
 
 echo "Installing github cli in order to provide easy hook for creating a pull request..."
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
@@ -50,9 +50,8 @@ branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
 git checkout -b $branchName
 
 
-#Empty the contents of the target file to be ready for appending incoming content.
-targetFile="./policies/environments/${targetEnv}.polar"
 sourceFile="./policies/environments/${targetEnv}.polar" 
+echo "Clearing out contents of ${targetEnv} from location ${sourceFile}"
 isPastCommentSection=false
 lineToStart=1
 previousLineValue=''
@@ -79,22 +78,21 @@ done < "$sourceFile"
 sed -i "${lineToStart},\$d" $targetFile
 
 
+
 sourceFile="./policies/environments/${sourceEnv}.polar" 
+targetFile="./policies/environments/${targetEnv}.polar"
+echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
 isPastCommentSection=false
 while IFS= read -r line
 do
-  echo $line "---> about to be processed."
    if [[ "$line" != *"$endCommentTrigger"* ]] &&  [[ ! -z "$line" ]]
   then 
-    echo $"xxxxxxx"
     isPastCommentSection=true
   fi
   if [ $isPastCommentSection = true ]
   then 
-    echo $line "========"
-    echo $line >> "./policies/environments/${targetEnv}.polar"
+    echo $line >> $targetFile
   fi
-  echo $"!!!!!!!!"
 done < "$sourceFile"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
