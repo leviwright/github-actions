@@ -46,13 +46,8 @@ git pull origin main
 echo "Creating new branch before enacting changes..."
 branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
 
-if [[ ! $(git checkout -b $branchName) ]]
-  then
-    echo "Failure: There was creating a new feature branch for the proposed changes." 
-  exit 1
-fi
-
-
+git checkout -b $branchName
+ 
 sourceFile="./policies/environments/${targetEnv}.polar" 
 
 echo "Clearing out contents of ${targetEnv} from location ${sourceFile}"
