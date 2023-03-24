@@ -50,6 +50,7 @@ if [[ ! $(git checkout -b $branchName) ]]
   then
     echo "Failure: There was creating a new feature branch for the proposed changes." 
   exit 1
+fi
 
 
 sourceFile="./policies/environments/${targetEnv}.polar" 
@@ -97,8 +98,8 @@ do
 done < "$sourceFile"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
-git config user.name "$(git log -n 1 --pretty=format:%an)"
-git config user.email "$(git log -n 1 --pretty=format:%ae)"
+git config user.name "$(git log -n 1 --pretty=format:%an)" #username from last commit - should always be user triggering the workflow.
+git config user.email "$(git log -n 1 --pretty=format:%ae)" #email from last commit - should always be user triggering the workflow. 
 
 echo "Adding and committing changes to new branch..."
 git status
@@ -117,11 +118,13 @@ if [[ ! $(git push origin $branchName) ]]
   then
     echo "Failure: There was an issue pushing changes to remote." 
   exit 1
+fi
 
 echo "Creating pull request..."
 if [[ ! $( gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to ${targetEnv} polar file." ) ]]
   then
     echo "Failure: There was an issue creating a pull request." 
   exit 1
+fi
 
 echo "Success!"
