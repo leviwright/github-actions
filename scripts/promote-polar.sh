@@ -4,7 +4,7 @@ development=development
 test=test
 staging=staging
 production=production
-endCommentTrigger="#"
+commentTrigger="#"
 
 envs=( $development $test $staging $production )
 targetEnv=$1
@@ -39,26 +39,28 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 && sudo apt update \
 && sudo apt install gh -y
 
-
-
-
 echo "Ensure we are start with the latest changes on the main branch..."
 git checkout main 
 git pull origin main
 
 echo "Creating new branch before enacting changes..."
 branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
-git checkout -b $branchName
+
+if [[ ! $(git checkout -b $branchName) ]]
+  then
+    echo "Failure: There was creating a new feature branch for the proposed changes." 
+  exit 1
 
 
 sourceFile="./policies/environments/${targetEnv}.polar" 
+
 echo "Clearing out contents of ${targetEnv} from location ${sourceFile}"
 isPastCommentSection=false
 lineToStart=1
 previousLineValue=''
 while IFS= read -r line
 do
-    if [[ "$line" != *"$endCommentTrigger"* ]] &&  [[ ! -z "$line" ]]
+    if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
     then
       isPastCommentSection=true
       break
@@ -67,7 +69,6 @@ do
     fi
   previousLineValue=$line
 done < "$sourceFile"
-
 
 #==================================================================
 # Important -- uncomment and swap the line below if running locally on mac OS for debugging purposes, 
@@ -78,15 +79,14 @@ done < "$sourceFile"
 #sed -i '' "${lineToStart},\$d" $targetFile
 sed -i "${lineToStart},\$d" $sourceFile
 
-
-
 sourceFile="./policies/environments/${sourceEnv}.polar" 
 targetFile="./policies/environments/${targetEnv}.polar"
+
 echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
 isPastCommentSection=false
 while IFS= read -r line
 do
-   if [[ "$line" != *"$endCommentTrigger"* ]] &&  [[ ! -z "$line" ]]
+   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
   then 
     isPastCommentSection=true
   fi
@@ -97,19 +97,31 @@ do
 done < "$sourceFile"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
-#git config user.name $actor
 git config user.name "$(git log -n 1 --pretty=format:%an)"
 git config user.email "$(git log -n 1 --pretty=format:%ae)"
+
 echo "Adding and committing changes to new branch..."
 git status
 git add -A
 git status
-git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..."
-git status
-echo "Pushing changes to remote..."
-git push origin $branchName
-echo "Creating pull request..."
-gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to ${targetEnv} polar file."
+if [[ ! $(git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}...") ]] 
+  then
+    echo "Failure: There was an issue making a commit on the branch."
+    exit 1
+fi
 
+git status
+
+echo "Pushing changes to remote..."
+if [[ ! $(git push origin $branchName) ]]
+  then
+    echo "Failure: There was an issue pushing changes to remote." 
+  exit 1
+
+echo "Creating pull request..."
+if [[ ! $( gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to ${targetEnv} polar file." ) ]]
+  then
+    echo "Failure: There was an issue creating a pull request." 
+  exit 1
 
 echo "Success!"
