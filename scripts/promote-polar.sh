@@ -85,10 +85,12 @@ while IFS= read -r line
 do
   if [ $isPastCommentSection = true ]
   then 
+    echo $line "========"
     echo $line >> "./policies/environments/${targetEnv}.polar"
   fi
   if [[ "$line" != *"$endCommentTrigger"* ]] &&  [[ ! -z "$line" ]]
   then 
+    echo $"xxxxxxx"
     isPastCommentSection=true
   fi
 done < "$sourceFile"
