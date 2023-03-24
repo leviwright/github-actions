@@ -77,7 +77,7 @@ echo $lineToStart "hey"
 # with the -i flag.
 #===================================================================
 #sed -i '' "${lineToStart},\$d" $targetFile
-sed -i '' "${lineToStart},\$d" $targetFile
+sed -i "${lineToStart},\$d" $targetFile
 
 
 sourceFile="../policies/environments/${sourceEnv}.polar" 
