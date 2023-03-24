@@ -87,7 +87,7 @@ do
   then 
     echo $line >> "./policies/environments/${targetEnv}.polar"
   fi
-  if [[ "$line" == *"$endCommentTrigger"* ]]
+  if [[ "$line" != *"$endCommentTrigger"* ]] &&  [[ ! -z "$line" ]]
   then 
     isPastCommentSection=true
   fi
