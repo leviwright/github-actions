@@ -84,12 +84,12 @@ while IFS= read -r line
 do
    if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
   then 
-    isPastCommentSection=true
+     echo $line >> $targetFile
   fi
-  if [ $isPastCommentSection = true ]
-  then 
-    echo $line >> $targetFile
-  fi
+  # if [ $isPastCommentSection = true ]
+  # then 
+  #   echo $line >> $targetFile
+  # fi
 done < "$sourceFile"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
