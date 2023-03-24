@@ -83,6 +83,7 @@ sourceFile="./policies/environments/${sourceEnv}.polar"
 isPastCommentSection=false
 while IFS= read -r line
 do
+  echo $line "---> about to be processed."
   if [ $isPastCommentSection = true ]
   then 
     echo $line "========"
@@ -93,6 +94,7 @@ do
     echo $"xxxxxxx"
     isPastCommentSection=true
   fi
+  echo $"!!!!!!!!"
 done < "$sourceFile"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
