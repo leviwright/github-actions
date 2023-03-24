@@ -51,8 +51,8 @@ git checkout -b $branchName
 
 
 #Empty the contents of the target file to be ready for appending incoming content.
-targetFile="../policies/environments/${targetEnv}.polar"
-sourceFile="../policies/environments/${targetEnv}.polar" 
+targetFile="./policies/environments/${targetEnv}.polar"
+sourceFile="./policies/environments/${targetEnv}.polar" 
 isPastCommentSection=false
 lineToStart=1
 previousLineValue=''
@@ -68,7 +68,6 @@ do
   previousLineValue=$line
 done < "$sourceFile"
 
-echo $lineToStart "hey"
 
 #==================================================================
 # Important -- uncomment and swap the line below if running locally on mac OS for debugging purposes, 
@@ -80,7 +79,7 @@ echo $lineToStart "hey"
 sed -i "${lineToStart},\$d" $targetFile
 
 
-sourceFile="../policies/environments/${sourceEnv}.polar" 
+sourceFile="./policies/environments/${sourceEnv}.polar" 
 isPastCommentSection=false
 while IFS= read -r line
 do
