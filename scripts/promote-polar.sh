@@ -81,6 +81,7 @@ targetFile="./policies/environments/${targetEnv}.polar"
 echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
 isPastCommentSection=false
 isInsideDeclarationBody=false
+declarationBodyLineCounter=0
 
 while IFS= read -r line
 do
@@ -99,6 +100,7 @@ do
      if [[ inputLength == 1 && "$line" == "}" ]]
      then
       isInsideDeclarationBody=false
+      declarationBodyLineCounter=0
     fi
 
 
@@ -115,6 +117,7 @@ do
   then 
     echo $line >> $targetFile
   fi
+  ((declarationBodyLineCounter++))
 done < "$sourceFile"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
