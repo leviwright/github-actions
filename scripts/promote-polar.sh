@@ -107,6 +107,7 @@ do
 
      if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
       then 
+        echo $line $declarationBodyLineCounter "=========>>>>>>>>"
         echo "  ${line}" >> $targetFile
       else
         echo $line >> $targetFile
