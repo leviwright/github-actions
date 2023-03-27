@@ -94,9 +94,12 @@ do
      if [[ "$line" != *"{"* ]]
      then
       isInsideDeclarationBody=true
+    fi
 
-     if [[ inputLength == 1 && "$line" == "}"]]
+     if [[ inputLength == 1 && "$line" == "}" ]]
+     then
       isInsideDeclarationBody=false
+    fi
 
 
      if [[ inputLength -gt 1 && $isInsideDeclarationBody ]]
