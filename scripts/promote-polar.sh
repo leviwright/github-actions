@@ -131,6 +131,7 @@ git status
 
 echo "================================>>>>>>>>>"
 priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/development.polar)
+echo $priorCommitMessage
 
 if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}... ${priorCommitMessage}" 
   then
