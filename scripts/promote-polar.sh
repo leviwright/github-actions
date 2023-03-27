@@ -85,7 +85,6 @@ declarationBodyLineCounter=0
 
 while IFS= read -r line
 do
-  echo $line "++++++++++++++++++++++++++"
   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
   then 
     isPastCommentSection=true
@@ -93,31 +92,26 @@ do
 
   if [ $isPastCommentSection = true ]
   then 
-    echo 'Line content ====>>>>>>' $line
     inputLength=${#line}
     firstCharacter={$line:0:1}
-
      if [[ "$line" == *"{"* ]]
-     then
-      echo "first character - setting isInsideDeclarationBody to true ====>>>>"
-      isInsideDeclarationBody=true
+      then
+       isInsideDeclarationBody=true
      fi
 
-    if [[ $inputLength == 1 && "$line" == "}" ]]
-     then
-       echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
-       isInsideDeclarationBody=false
-       declarationBodyLineCounter=0
-    fi  
+     if [[ $inputLength == 1 && "$line" == "}" ]]
+      then
+        isInsideDeclarationBody=false
+        declarationBodyLineCounter=0
+     fi  
 
      if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
       then 
         echo "  ${line}" >> $targetFile
-     else
+      else
         echo $line >> $targetFile
      fi
-  fi
-
+   fi
   if $isInsideDeclarationBody
     then
      ((declarationBodyLineCounter++))
