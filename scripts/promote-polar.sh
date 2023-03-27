@@ -81,12 +81,11 @@ sed -i "${lineToStart},\$d" $targetFile
 
 echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
 isPastCommentSection=false
- isInsideDeclarationBody=false
 declarationBodyLineCounter=0
 
 while IFS= read -r line
 do
-   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
+  if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
   then 
     isPastCommentSection=true
   fi
@@ -100,38 +99,21 @@ do
      then
       echo "first character - setting isInsideDeclarationBody to true ====>>>>"
       isInsideDeclarationBody=true
-    fi  
-
-    echo $inputLength '\\\\\\\\\\\\\\\\\\\\\\'
-    echo $declarationBodyLineCounter '\\\\\\\\\\\\\\\\\\\\\\\\'
-
-    if [[  $inputLength -gt 1 ]]
-      then
-      echo $inputLength "input length xxxxxxxxxxxxxxx"
     fi
-
-    if [[   $declarationBodyLineCounter -gt 0 ]]
-      then
-      echo $inputLength "declaration body line counter xxxxxxxxxxxxxxx"
-    fi
-        
-     if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
-      then 
-        echo "input length is greater than 1 and isInsideDeclarationBody is true"
-        tab="$(printf '\t')"
-        echo "  ${line}" >> $targetFile
-        echo 'WRITING HERE ===>>>>>'
-     else
-        echo $line >> $targetFile
-        echo 'WRITING THERE =====>>>>>>>'
-     fi
 
     if [[ $inputLength == 1 && "$line" == "}" ]]
      then
        echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
-      isInsideDeclarationBody=false
-      declarationBodyLineCounter=0
-    fi 
+       isInsideDeclarationBody=false
+       declarationBodyLineCounter=0
+    fi  
+
+     if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
+      then 
+        echo "  ${line}" >> $targetFile
+     else
+        echo $line >> $targetFile
+     fi
 
   if $isInsideDeclarationBody
     then
