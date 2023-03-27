@@ -44,7 +44,8 @@ git checkout main
 git pull origin main
 
 echo "Creating new branch before enacting changes..."
-branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
+uuid=$(uuidgen)
+branchName="promote-polar-${sourceEnv}-to-${targetEnv}${uuid}"
 
 git checkout -b $branchName
  
@@ -154,7 +155,7 @@ fi
 
 echo "Creating pull request..."
 newLine=$'\n'
-if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit. ${newLine} ${newLine} commit message and associated info: ${newLine} ${newLine} ${priorCommitMessage}"
+if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit. ${newLine} ${newLine} prior commit message and associated info: ${newLine} ${newLine} ${priorCommitMessage}"
   then
     echo "Failure: There was an issue creating a pull request." 
   exit 1
