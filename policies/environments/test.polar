@@ -16,4 +16,11 @@
 
 ####
 
-asdfasdfasdfasd
+  actor whatever {
+
+}
+
+actor Awesome {
+   thing1
+   thing2
+}
