@@ -5,7 +5,3 @@
 actor whatever {
 
 }
-
-actor Awesome {
-
-}

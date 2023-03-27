@@ -82,6 +82,7 @@ sourceFile="./policies/environments/${sourceEnv}.polar"
 sed -i "${lineToStart},\$d" $targetFile 
 
 #ensure that we have an empty line at the end of our source file. If not, bash cannot read all the way through our contents.
+#For development, echo "" >> $targetFile should work fine. 
 sed -i -e '$a\' $sourceFile
 
 
@@ -126,6 +127,9 @@ do
   fi
   fi
 done < "$sourceFile"
+
+#remove added white space now that we are done reading the source file to avoid lint issues. 
+sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' $sourceFile
 
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
