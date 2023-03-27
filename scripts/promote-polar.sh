@@ -127,7 +127,8 @@ do
      if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
       then 
         echo "input length is greater than 1 and isInsideDeclarationBody is true"
-        echo $'\t' $line >> $targetFile
+        tab="$(printf '\t')"
+        echo "${tab}${line}" >> $targetFile
         echo 'WRITING HERE ===>>>>>'
      else
         echo $line >> $targetFile
