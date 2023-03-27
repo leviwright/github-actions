@@ -154,7 +154,7 @@ fi
 
 echo "Creating pull request..."
 newLine=$'\n'
-if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit. ${newLine} ${newLine} commit message and associated info: '${priorCommitMessage}'"
+if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit. ${newLine} ${newLine} commit message and associated info: ${priorCommitMessage}"
   then
     echo "Failure: There was an issue creating a pull request." 
   exit 1
