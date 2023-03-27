@@ -73,7 +73,6 @@ done < "$sourceFile"
 # with the -i flag.
 #===================================================================
 targetFile="./policies/environments/${targetEnv}.polar"
-sourceFile="./policies/environments/${sourceEnv}.polar"
 
 #sed -i '' "${lineToStart},\$d" $targetFile
 sed -i "${lineToStart},\$d" $targetFile 
@@ -81,19 +80,18 @@ sed -i "${lineToStart},\$d" $targetFile
 
 echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
 isPastCommentSection=false
-
+isInsideDeclarationBody=false
 declarationBodyLineCounter=0
 
 while IFS= read -r line
 do
-   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
+  if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
   then 
     isPastCommentSection=true
   fi
+
   if [ $isPastCommentSection = true ]
   then 
-    # echo $line >> $targetFile
-
     echo 'Line content ====>>>>>>' $line
     inputLength=${#line}
     firstCharacter={$line:0:1}
@@ -102,14 +100,14 @@ do
      then
       echo "first character - setting isInsideDeclarationBody to true ====>>>>"
       isInsideDeclarationBody=true
-    fi
+     fi
 
-        if [[ $inputLength == 1 && "$line" == "}" ]]
-     then
-       echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
-      isInsideDeclarationBody=false
-      declarationBodyLineCounter=0
-    fi  
+     # if [[ $inputLength == 1 && "$line" == "}" ]]
+     # then
+     #   echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
+     #  isInsideDeclarationBody=false
+     #  declarationBodyLineCounter=0
+     # fi  
 
     echo $inputLength '\\\\\\\\\\\\\\\\\\\\\\'
     echo $declarationBodyLineCounter '\\\\\\\\\\\\\\\\\\\\\\\\'
@@ -123,22 +121,26 @@ do
       then
       echo $inputLength "declaration body line counter xxxxxxxxxxxxxxx"
     fi
-        
      if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
       then 
         echo "input length is greater than 1 and isInsideDeclarationBody is true"
-        tab="$(printf '\t')"
         echo "  ${line}" >> $targetFile
         echo 'WRITING HERE ===>>>>>'
      else
         echo $line >> $targetFile
         echo 'WRITING THERE =====>>>>>>>'
      fi
-
+     
   if $isInsideDeclarationBody
     then
      ((declarationBodyLineCounter++))
   fi
+     if [[ $inputLength == 1 && "$line" == "}" ]]
+     then
+       echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
+      isInsideDeclarationBody=false
+      declarationBodyLineCounter=0
+     fi  
   fi
 done < "$sourceFile"
 
