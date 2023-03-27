@@ -7,6 +7,12 @@ actor whatever {
 }
 
 actor Awesome {
- thing1
- thing2
+
+}
+
+actor SomethingCool {
+	lskdjflskdjf
+	sldkfjsldkfj
+	slkdfjsldkfj
+	slkdjflskdjf
 }
