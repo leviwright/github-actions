@@ -100,7 +100,7 @@ do
       isInsideDeclarationBody=true
     fi
 
-     if [[ inputLength == 1 && "$line" == "}" ]]
+     if [[ $inputLength == 1 && "$line" == "}" ]]
      then
        echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
       isInsideDeclarationBody=false
@@ -108,7 +108,7 @@ do
     fi
 
 
-     if [[ inputLength -gt 1 && $isInsideDeclarationBody && declarationBodyLineCounter -gt 0 ]]
+     if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
       then 
         echo "input length is greater than 1 and isInsideDeclarationBody is true"
       echo $'\t' $line >> $targetFile
@@ -122,7 +122,11 @@ do
   then 
     echo $line >> $targetFile
   fi
-  ((declarationBodyLineCounter++))
+
+  if [[ $isInsideDeclarationBody ]]
+    then
+     ((declarationBodyLineCounter++))
+  fi
   echo $declarationBodyLineCounter '====> declarationBodyLineCounter after increment'
 done < "$sourceFile"
 
