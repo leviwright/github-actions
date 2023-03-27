@@ -129,6 +129,7 @@ git status
 git add -A
 git status
 
+
 echo "================================>>>>>>>>>"
 priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/development.polar)
 echo $priorCommitMessage
