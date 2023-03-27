@@ -5,21 +5,3 @@
 # 
 
 
-
-###
-
-
-
-
-
-##
-
-####
-
-actor whatever {
-
-}
-
-actor Awesome {
-
-}
