@@ -94,7 +94,7 @@ do
     firstCharacter={$line:0:1}
     echo firstCharacter '=====>>>>>>>'
 
-     if [[ "$line" != *"{"* ]]
+     if [[ "$line" == *"{"* ]]
      then
       echo "first character - setting isInsideDeclarationBody to true ====>>>>"
       isInsideDeclarationBody=true
