@@ -88,9 +88,9 @@ do
      echo $inputLength 'INPUT LENGTH'
      firstCharacter={$line:0:1}
      echo firstCharacter '=====>>>>>>>'
-     if [[ inputLength -gt 1 && firstCharacter == "{" || firstCharacter == "}" ]]
+     if [[ inputLength -gt 1 && firstCharacter != "{" || firstCharacter != "}" ]]
       then 
-      echo $line >> ' \t '$targetFile
+      echo ' \t '$line >> $targetFile
       echo 'WRITING HERE ===>>>>>'
      else
       echo $line >> $targetFile
