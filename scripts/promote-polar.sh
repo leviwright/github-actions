@@ -80,6 +80,8 @@ targetFile="./policies/environments/${targetEnv}.polar"
 
 echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
 isPastCommentSection=false
+isInsideDeclarationBody=false
+
 while IFS= read -r line
 do
    if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]] 
@@ -88,7 +90,16 @@ do
      echo $inputLength 'INPUT LENGTH'
      firstCharacter={$line:0:1}
      echo firstCharacter '=====>>>>>>>'
-     if [[ inputLength -gt 1 && firstCharacter != "{" || firstCharacter != "}" ]]
+
+     if [[ "$line" != *"{"* ]]
+     then
+      isInsideDeclarationBody=true
+
+     if [[ inputLength == 1 && "$line" == "}"]]
+      isInsideDeclarationBody=false
+
+
+     if [[ inputLength -gt 1 && $isInsideDeclarationBody ]]
       then 
       echo $'\t' $line >> $targetFile
       echo 'WRITING HERE ===>>>>>'
