@@ -94,6 +94,7 @@ do
   then 
     inputLength=${#line}
     firstCharacter={$line:0:1}
+
      if [[ "$line" == *"{"* ]]
       then
        isInsideDeclarationBody=true
@@ -104,7 +105,7 @@ do
         isInsideDeclarationBody=false
         declarationBodyLineCounter=0
      fi  
-
+ 
      if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
       then 
         echo $line $declarationBodyLineCounter "=========>>>>>>>>"
@@ -117,6 +118,7 @@ do
     then
      ((declarationBodyLineCounter++))
   fi
+  echo $declarationBodyLineCounter, 'COUNTER'
 done < "$sourceFile"
 
 
