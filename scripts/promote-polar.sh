@@ -76,7 +76,7 @@ targetFile="./policies/environments/${targetEnv}.polar"
 sourceFile="./policies/environments/${sourceEnv}.polar"
 
 #sed -i '' "${lineToStart},\$d" $targetFile
-sed -i "${lineToStart},\$d" $sourceFile 
+sed -i "${lineToStart},\$d" $targetFile 
 
 
 echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
