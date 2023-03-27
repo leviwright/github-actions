@@ -91,6 +91,8 @@ do
   fi
 
   if [ $isPastCommentSection = true ]
+      echo $declarationBodyLineCounter, 'COUNTER'
+      echo $line '===========>>>>>>>>'
   then 
     inputLength=${#line}
     firstCharacter={$line:0:1}
@@ -108,7 +110,7 @@ do
  
      if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
       then 
-        echo $line $declarationBodyLineCounter "=========>>>>>>>>"
+        echo $line $declarationBodyLineCounter "xxxxxxxxxxx"
         echo "  ${line}" >> $targetFile
       else
         echo $line >> $targetFile
