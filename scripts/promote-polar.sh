@@ -84,7 +84,7 @@ while IFS= read -r line
 do
    if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]] 
   then 
-     firstCharacter=${$line:0:1}
+     firstCharacter={$line:0:1}
      echo firstCharacter '=====>>>>>>>'
      if [[ firstCharacter == "{" || firstCharacter == "}" ]]
       then 
