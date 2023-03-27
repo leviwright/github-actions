@@ -94,7 +94,7 @@ do
   then 
     echo $declarationBodyLineCounter 'COUNTER'
     echo $line '=================>>>>>>>>'
-    
+
     inputLength=${#line}
     firstCharacter={$line:0:1}
 
@@ -116,10 +116,10 @@ do
       else
         echo $line >> $targetFile
      fi
-   fi
   if $isInsideDeclarationBody
     then
      ((declarationBodyLineCounter++))
+  fi
   fi
   echo $declarationBodyLineCounter 'COUNTER'
 done < "$sourceFile"
