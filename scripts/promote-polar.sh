@@ -85,7 +85,7 @@ do
    if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]] 
   then 
      inputLength=${#line}
-     echo inputLength 'INPUT LENGTH'
+     echo $inputLength 'INPUT LENGTH'
      firstCharacter={$line:0:1}
      echo firstCharacter '=====>>>>>>>'
      if [[ firstCharacter == "{" || firstCharacter == "}" ]]
