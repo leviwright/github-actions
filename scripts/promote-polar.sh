@@ -152,7 +152,9 @@ if ! git push origin $branchName
 fi
 
 echo "Creating pull request..."
-if ! gh pr create --title $'{actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file' --body $'@{actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit with the following information:\n${priorCommitMessage}'
+if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit with the following information: 
+
+${priorCommitMessage}"
   then
     echo "Failure: There was an issue creating a pull request." 
   exit 1
