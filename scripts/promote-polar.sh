@@ -151,6 +151,7 @@ echo "Adding and committing changes to new branch..."
 git status
 git add -A
 git status
+
 if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
   then
     echo "Failure: There was an issue making a commit on the branch."
