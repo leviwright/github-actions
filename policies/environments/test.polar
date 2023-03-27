@@ -5,3 +5,11 @@
 # 
 
 
+actor whatever {
+
+}
+
+actor horse {
+
+
+}
