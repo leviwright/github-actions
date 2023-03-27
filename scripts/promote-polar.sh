@@ -48,7 +48,7 @@ branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
 
 git checkout -b $branchName
  
-sourceFile="../policies/environments/${targetEnv}.polar" 
+sourceFile="./policies/environments/${targetEnv}.polar" 
 
 echo "Clearing out contents of ${targetEnv} from location ${sourceFile}"
 isPastCommentSection=false
@@ -72,8 +72,8 @@ done < "$sourceFile"
 # works slightly different than the Linux version. Linux uses the GNU version which will behave differently 
 # with the -i flag.
 #===================================================================
-targetFile="../policies/environments/${targetEnv}.polar"
-sourceFile="../policies/environments/${sourceEnv}.polar"
+targetFile="./policies/environments/${targetEnv}.polar"
+sourceFile="./policies/environments/${sourceEnv}.polar"
 
 #sed -i '' "${lineToStart},\$d" $targetFile
 sed -i "${lineToStart},\$d" $sourceFile 
