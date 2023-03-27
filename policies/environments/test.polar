@@ -25,3 +25,9 @@ actor Awesome {
 	 thing1
 	 thing2
 }
+actor whatever {
+
+}
+
+actor Awesome {
+}
