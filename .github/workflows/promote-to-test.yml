@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       name:
-        description: 'Promote Polar Files to the ${{ github.event.inputs.environment }} Environment.'
-        default: 'Promote Polar Files to the ${{ github.event.inputs.environment }} Environment'
+        description: 'Promote Polar Files to the Target Environment'
+        default: 'Promote Polar Files to the Target Environment'
         # Input has to be provided for the workflow to run
         required: false
       environment:
