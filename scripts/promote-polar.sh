@@ -72,25 +72,58 @@ done < "$sourceFile"
 # works slightly different than the Linux version. Linux uses the GNU version which will behave differently 
 # with the -i flag.
 #===================================================================
-#sed -i '' "${lineToStart},\$d" $targetFile
-sed -i "${lineToStart},\$d" $sourceFile
-
-sourceFile="./policies/environments/${sourceEnv}.polar" 
 targetFile="./policies/environments/${targetEnv}.polar"
+sourceFile="./policies/environments/${sourceEnv}.polar"
+
+#sed -i '' "${lineToStart},\$d" $targetFile
+sed -i "${lineToStart},\$d" $targetFile 
+
 
 echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
 isPastCommentSection=false
+declarationBodyLineCounter=0
+
 while IFS= read -r line
 do
-   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
+  echo $line "++++++++++++++++++++++++++"
+  if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
   then 
     isPastCommentSection=true
   fi
+
   if [ $isPastCommentSection = true ]
   then 
-    echo $line >> $targetFile
+    echo 'Line content ====>>>>>>' $line
+    inputLength=${#line}
+    firstCharacter={$line:0:1}
+
+     if [[ "$line" == *"{"* ]]
+     then
+      echo "first character - setting isInsideDeclarationBody to true ====>>>>"
+      isInsideDeclarationBody=true
+     fi
+
+    if [[ $inputLength == 1 && "$line" == "}" ]]
+     then
+       echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
+       isInsideDeclarationBody=false
+       declarationBodyLineCounter=0
+    fi  
+
+     if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
+      then 
+        echo "  ${line}" >> $targetFile
+     else
+        echo $line >> $targetFile
+     fi
+  fi
+
+  if $isInsideDeclarationBody
+    then
+     ((declarationBodyLineCounter++))
   fi
 done < "$sourceFile"
+
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
 git config user.name "$(git log -n 1 --pretty=format:%an)" #username from last commit - should always be user triggering the workflow.
@@ -100,6 +133,7 @@ echo "Adding and committing changes to new branch..."
 git status
 git add -A
 git status
+
 if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
   then
     echo "Failure: There was an issue making a commit on the branch."
