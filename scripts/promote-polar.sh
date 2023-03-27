@@ -1,35 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Codespaces
-Marketplace
-Explore
- 
-@leviwright 
-LumioHX
-/
-lumio-oso
-Private
-Cannot fork because forking is disabled.
-Code
-Issues
-Pull requests
-1
-Actions
-Wiki
-Security
-Insights
-lumio-oso/scripts/promote-polar.sh
-@leviwright
-leviwright adding error handling and making comment detection smarter. (#8)
-…
-Latest commit 9a59bc6 3 days ago
- History
- 2 contributors
-@leviwright@Tilendor
-125 lines (105 sloc)  4.16 KB
-
 #! /bin/bash
 
 development=development
@@ -155,4 +123,3 @@ if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents 
 fi
 
 echo "Success!"
-lumio-oso/promote-polar.sh at main · LumioHX/lumio-oso
