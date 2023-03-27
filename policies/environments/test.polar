@@ -27,6 +27,4 @@ actor Awesome {
 actor SomethingCool {
   	lskdjflskdjf
   	sldkfjsldkfj
-  	slkdfjsldkfj
-  	slkdjflskdjf
 }
