@@ -129,7 +129,7 @@ do
 done < "$sourceFile"
 
 #remove added white space now that we are done reading the source file to avoid lint issues. 
-sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' $sourceFile
+sed -i '/^$/d' $sourceFile
 
 
 echo "Configuring temporary git credentials on linux box to match trigger user"

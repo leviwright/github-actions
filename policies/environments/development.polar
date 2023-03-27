@@ -5,3 +5,8 @@
 actor whatever {
 
 }
+
+actor horse {
+	
+	
+}
