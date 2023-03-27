@@ -1,3 +1,35 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Codespaces
+Marketplace
+Explore
+ 
+@leviwright 
+LumioHX
+/
+lumio-oso
+Private
+Cannot fork because forking is disabled.
+Code
+Issues
+Pull requests
+1
+Actions
+Wiki
+Security
+Insights
+lumio-oso/scripts/promote-polar.sh
+@leviwright
+leviwright adding error handling and making comment detection smarter. (#8)
+…
+Latest commit 9a59bc6 3 days ago
+ History
+ 2 contributors
+@leviwright@Tilendor
+125 lines (105 sloc)  4.16 KB
+
 #! /bin/bash
 
 development=development
@@ -72,58 +104,14 @@ done < "$sourceFile"
 # works slightly different than the Linux version. Linux uses the GNU version which will behave differently 
 # with the -i flag.
 #===================================================================
-targetFile="./policies/environments/${targetEnv}.polar"
-sourceFile="./policies/environments/${sourceEnv}.polar"
-
 #sed -i '' "${lineToStart},\$d" $targetFile
-sed -i "${lineToStart},\$d" $targetFile 
+sed -i "${lineToStart},\$d" $sourceFile
 
+sourceFile="./policies/environments/${sourceEnv}.polar" 
+targetFile="./policies/environments/${targetEnv}.polar"
 
 echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
 isPastCommentSection=false
-declarationBodyLineCounter=0
-
-# while IFS= read -r line
-# do
-#   echo $line "++++++++++++++++++++++++++"
-#   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
-#   then 
-#     isPastCommentSection=true
-#   fi
-
-#   if [ $isPastCommentSection = true ]
-#   then 
-#     echo 'Line content ====>>>>>>' $line
-#     inputLength=${#line}
-#     firstCharacter={$line:0:1}
-
-#      if [[ "$line" == *"{"* ]]
-#      then
-#       echo "first character - setting isInsideDeclarationBody to true ====>>>>"
-#       isInsideDeclarationBody=true
-#      fi
-
-#     if [[ $inputLength == 1 && "$line" == "}" ]]
-#      then
-#        echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
-#        isInsideDeclarationBody=false
-#        declarationBodyLineCounter=0
-#     fi  
-
-#      if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
-#       then 
-#         echo "  ${line}" >> $targetFile
-#      else
-#         echo $line >> $targetFile
-#      fi
-#   fi
-
-#   if $isInsideDeclarationBody
-#     then
-#      ((declarationBodyLineCounter++))
-#   fi
-# done < "$sourceFile"
-
 while IFS= read -r line
 do
    if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
@@ -136,7 +124,6 @@ do
   fi
 done < "$sourceFile"
 
-
 echo "Configuring temporary git credentials on linux box to match trigger user"
 git config user.name "$(git log -n 1 --pretty=format:%an)" #username from last commit - should always be user triggering the workflow.
 git config user.email "$(git log -n 1 --pretty=format:%ae)" #email from last commit - should always be user triggering the workflow. 
@@ -145,7 +132,6 @@ echo "Adding and committing changes to new branch..."
 git status
 git add -A
 git status
-
 if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
   then
     echo "Failure: There was an issue making a commit on the branch."
@@ -169,3 +155,4 @@ if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents 
 fi
 
 echo "Success!"
+lumio-oso/promote-polar.sh at main · LumioHX/lumio-oso
