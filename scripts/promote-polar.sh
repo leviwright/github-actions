@@ -81,10 +81,15 @@ sourceFile="./policies/environments/${sourceEnv}.polar"
 #sed -i '' "${lineToStart},\$d" $targetFile
 sed -i "${lineToStart},\$d" $targetFile 
 
+#ensure that we have an empty line at the end of our source file. If not, bash cannot read all the way through our contents.
+sed -i -e '$a\' $sourceFile
+
 
 echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
 isPastCommentSection=false
 declarationBodyLineCounter=0
+
+
 
 while IFS= read -r line
 do

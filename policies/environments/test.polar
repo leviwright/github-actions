@@ -23,4 +23,3 @@ actor whatever {
 actor Awesome {
 
 }
-

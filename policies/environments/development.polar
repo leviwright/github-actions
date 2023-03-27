@@ -9,4 +9,3 @@ actor whatever {
 actor Awesome {
 
 }
-

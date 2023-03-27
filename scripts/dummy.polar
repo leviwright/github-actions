@@ -1,2 +1,7 @@
-hey
-# -- End Comment Section -- 
+actor Whatever {
+	
+}
+
+something {
+	
+}
