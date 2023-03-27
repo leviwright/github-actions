@@ -154,11 +154,13 @@ git status
 git add -A
 git status
 
-if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
-  then
-    echo "Failure: There was an issue making a commit on the branch."
-    exit 1
-fi
+# if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
+#   then
+#     echo "Failure: There was an issue making a commit on the branch."
+#     exit 1
+# fi
+
+ git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
 
 git status
 
