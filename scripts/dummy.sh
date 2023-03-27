@@ -1,1 +1,2 @@
-echo $'This is First Line \nThis is Second Line'
+newLine=$'\n'
+echo "here is a ${newLine}"
