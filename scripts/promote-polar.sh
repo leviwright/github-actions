@@ -102,12 +102,12 @@ do
       isInsideDeclarationBody=true
      fi
 
-     # if [[ $inputLength == 1 && "$line" == "}" ]]
-     # then
-     #   echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
-     #  isInsideDeclarationBody=false
-     #  declarationBodyLineCounter=0
-     # fi  
+     if [[ $inputLength == 1 && "$line" == "}" ]]
+     then
+       echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
+      isInsideDeclarationBody=false
+      declarationBodyLineCounter=0
+     fi  
 
     echo $inputLength '\\\\\\\\\\\\\\\\\\\\\\'
     echo $declarationBodyLineCounter '\\\\\\\\\\\\\\\\\\\\\\\\'
@@ -135,12 +135,12 @@ do
     then
      ((declarationBodyLineCounter++))
   fi
-     if [[ $inputLength == 1 && "$line" == "}" ]]
-     then
-       echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
-      isInsideDeclarationBody=false
-      declarationBodyLineCounter=0
-     fi  
+     # if [[ $inputLength == 1 && "$line" == "}" ]]
+     # then
+     #   echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
+     #  isInsideDeclarationBody=false
+     #  declarationBodyLineCounter=0
+     # fi  
   fi
 done < "$sourceFile"
 
@@ -154,13 +154,11 @@ git status
 git add -A
 git status
 
-# if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
-#   then
-#     echo "Failure: There was an issue making a commit on the branch."
-#     exit 1
-# fi
-
- git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
+if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
+  then
+    echo "Failure: There was an issue making a commit on the branch."
+    exit 1
+fi
 
 git status
 
