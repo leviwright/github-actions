@@ -90,6 +90,7 @@ do
   then 
     isPastCommentSection=true
   fi
+
   if [ $isPastCommentSection = true ]
   then 
     echo 'Line content ====>>>>>>' $line
@@ -100,7 +101,7 @@ do
      then
       echo "first character - setting isInsideDeclarationBody to true ====>>>>"
       isInsideDeclarationBody=true
-    fi
+     fi
 
     if [[ $inputLength == 1 && "$line" == "}" ]]
      then
@@ -115,11 +116,11 @@ do
      else
         echo $line >> $targetFile
      fi
+  fi
 
   if $isInsideDeclarationBody
     then
      ((declarationBodyLineCounter++))
-  fi
   fi
 done < "$sourceFile"
 
