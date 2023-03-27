@@ -130,9 +130,9 @@ git add -A
 git status
 
 echo "================================>>>>>>>>>"
-git whatchanged -n 1 --format=%b -- policies/environments/development.polar 
+priorCommitMessage=git whatchanged -n 1 --format=%b -- policies/environments/development.polar 
 
-if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
+if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}... ${priorCommitMessage}" 
   then
     echo "Failure: There was an issue making a commit on the branch."
     exit 1
