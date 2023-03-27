@@ -132,34 +132,16 @@ git status
 git add -A
 git status
 
-
-echo "================================>>>>>>>>>"
 priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/development.polar)
 echo $priorCommitMessage
 
-# if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}" 
-#   then
-#     echo "Failure: There was an issue making a commit on the branch."
-#     exit 1
-# fi
-
+git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}" 
 git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}"
-
 git status
-
 echo "Pushing changes to remote..."
-if ! git push origin $branchName 
-  then
-    echo "Failure: There was an issue pushing changes to remote." 
-  exit 1
-fi
-
+git push origin $branchName 
 echo "Creating pull request..."
 newLine=$'\n'
-if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit. ${newLine} ${newLine} prior commit message and associated info: ${newLine} ${newLine} ${priorCommitMessage}"
-  then
-    echo "Failure: There was an issue creating a pull request." 
-  exit 1
-fi
+gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit. ${newLine} ${newLine} prior commit message and associated info: ${newLine} ${newLine} ${priorCommitMessage}"
 
 echo "Success!"
