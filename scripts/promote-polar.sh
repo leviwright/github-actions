@@ -90,11 +90,8 @@ do
     isPastCommentSection=true
   fi
 
-  if [ $isPastCommentSection = true ]
+  if $isPastCommentSection
   then 
-    echo $declarationBodyLineCounter 'COUNTER'
-    echo $line '=================>>>>>>>>'
-
     inputLength=${#line}
     firstCharacter={$line:0:1}
 
@@ -111,7 +108,6 @@ do
  
      if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
       then 
-        echo $line $declarationBodyLineCounter "=========>>>>>>>>"
         echo "  ${line}" >> $targetFile
       else
         echo $line >> $targetFile
@@ -121,7 +117,6 @@ do
      ((declarationBodyLineCounter++))
   fi
   fi
-  echo $declarationBodyLineCounter 'COUNTER'
 done < "$sourceFile"
 
 
@@ -133,6 +128,8 @@ echo "Adding and committing changes to new branch..."
 git status
 git add -A
 git status
+
+git whatchanged -n 1 --format=%b -- policies/environments/development.polar "================================>>>>>>>>>"
 
 if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
   then
