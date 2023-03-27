@@ -7,6 +7,6 @@ actor whatever {
 }
 
 actor Awesome {
-thing1
-thing2
+ thing1
+ thing2
 }
