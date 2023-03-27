@@ -80,7 +80,7 @@ sed -i "${lineToStart},\$d" $targetFile
 
 echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
 isPastCommentSection=false
-isInsideDeclarationBody=false
+
 declarationBodyLineCounter=0
 
 while IFS= read -r line
@@ -100,14 +100,13 @@ do
      then
       echo "first character - setting isInsideDeclarationBody to true ====>>>>"
       isInsideDeclarationBody=true
-     fi
-
-     if [[ $inputLength == 1 && "$line" == "}" ]]
+    fi
+if [[ $inputLength == 1 && "$line" == "}" ]]
      then
        echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
       isInsideDeclarationBody=false
       declarationBodyLineCounter=0
-     fi  
+    fi  
 
     echo $inputLength '\\\\\\\\\\\\\\\\\\\\\\'
     echo $declarationBodyLineCounter '\\\\\\\\\\\\\\\\\\\\\\\\'
@@ -130,17 +129,10 @@ do
         echo $line >> $targetFile
         echo 'WRITING THERE =====>>>>>>>'
      fi
-     
   if $isInsideDeclarationBody
     then
      ((declarationBodyLineCounter++))
   fi
-     # if [[ $inputLength == 1 && "$line" == "}" ]]
-     # then
-     #   echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
-     #  isInsideDeclarationBody=false
-     #  declarationBodyLineCounter=0
-     # fi  
   fi
 done < "$sourceFile"
 
