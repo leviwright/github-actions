@@ -2,6 +2,11 @@
 
 # -- End Comment Section -- 
 
-actor Development {
+actor whatever {
 
+}
+
+actor Awesome {
+  thing1
+  thing2
 }

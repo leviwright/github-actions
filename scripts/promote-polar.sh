@@ -39,7 +39,7 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 && sudo apt update \
 && sudo apt install gh -y
 
-echo "Ensure we are start with the latest changes on the main branch..."
+echo "Ensure we are starting with the latest changes on the main branch..."
 git checkout main 
 git pull origin main
 
@@ -47,8 +47,8 @@ echo "Creating new branch before enacting changes..."
 branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
 
 git checkout -b $branchName
-  
-sourceFile="./policies/environments/${targetEnv}.polar" 
+ 
+sourceFile="../policies/environments/${targetEnv}.polar" 
 
 echo "Clearing out contents of ${targetEnv} from location ${sourceFile}"
 isPastCommentSection=false
@@ -72,27 +72,31 @@ done < "$sourceFile"
 # works slightly different than the Linux version. Linux uses the GNU version which will behave differently 
 # with the -i flag.
 #===================================================================
-#sed -i '' "${lineToStart},\$d" $targetFile
-sed -i "${lineToStart},\$d" $sourceFile
+targetFile="../policies/environments/${targetEnv}.polar"
+sourceFile="../policies/environments/${sourceEnv}.polar"
 
-sourceFile="./policies/environments/${sourceEnv}.polar" 
-targetFile="./policies/environments/${targetEnv}.polar"
+#sed -i '' "${lineToStart},\$d" $targetFile
+sed -i "${lineToStart},\$d" $sourceFile 
+
 
 echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
 isPastCommentSection=false
-isInsideDeclarationBody=false
+
 declarationBodyLineCounter=0
 
 while IFS= read -r line
 do
-   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]] 
+   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
   then 
+    isPastCommentSection=true
+  fi
+  if [ $isPastCommentSection = true ]
+  then 
+    # echo $line >> $targetFile
 
     echo 'Line content ====>>>>>>' $line
     inputLength=${#line}
-    echo $inputLength 'INPUT LENGTH'
     firstCharacter={$line:0:1}
-    echo firstCharacter '=====>>>>>>>'
 
      if [[ "$line" == *"{"* ]]
      then
@@ -100,35 +104,43 @@ do
       isInsideDeclarationBody=true
     fi
 
-     if [[ $inputLength == 1 && "$line" == "}" ]]
+        if [[ $inputLength == 1 && "$line" == "}" ]]
      then
        echo "input length is 1 and line is equal to '}' setting is isInsideDeclarationBody to false ====>>>>"
       isInsideDeclarationBody=false
       declarationBodyLineCounter=0
+    fi  
+
+    echo $inputLength '\\\\\\\\\\\\\\\\\\\\\\'
+    echo $declarationBodyLineCounter '\\\\\\\\\\\\\\\\\\\\\\\\'
+
+    if [[  $inputLength -gt 1 ]]
+      then
+      echo $inputLength "input length xxxxxxxxxxxxxxx"
     fi
 
-
+    if [[   $declarationBodyLineCounter -gt 0 ]]
+      then
+      echo $inputLength "declaration body line counter xxxxxxxxxxxxxxx"
+    fi
+        
      if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
       then 
         echo "input length is greater than 1 and isInsideDeclarationBody is true"
-      echo $'\t' $line >> $targetFile
-      echo 'WRITING HERE ===>>>>>'
+        echo $'\t' $line >> $targetFile
+        echo 'WRITING HERE ===>>>>>'
      else
-      echo $line >> $targetFile
-      echo 'WRITING THERE =====>>>>>>>'
+        echo $line >> $targetFile
+        echo 'WRITING THERE =====>>>>>>>'
      fi
-  fi
-  if [ $isPastCommentSection = true ]
-  then 
-    echo $line >> $targetFile
-  fi
 
-  if [[ $isInsideDeclarationBody ]]
+  if $isInsideDeclarationBody
     then
      ((declarationBodyLineCounter++))
   fi
-  echo $declarationBodyLineCounter '====> declarationBodyLineCounter after increment'
+  fi
 done < "$sourceFile"
+
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
 git config user.name "$(git log -n 1 --pretty=format:%an)" #username from last commit - should always be user triggering the workflow.
@@ -138,12 +150,11 @@ echo "Adding and committing changes to new branch..."
 git status
 git add -A
 git status
-git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
-# if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
-#   then
-#     echo "Failure: There was an issue making a commit on the branch."
-#     exit 1
-# fi
+if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
+  then
+    echo "Failure: There was an issue making a commit on the branch."
+    exit 1
+fi
 
 git status
 
