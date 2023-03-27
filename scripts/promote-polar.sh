@@ -129,7 +129,8 @@ git status
 git add -A
 git status
 
-git whatchanged -n 1 --format=%b -- policies/environments/development.polar "================================>>>>>>>>>"
+echo "================================>>>>>>>>>"
+git whatchanged -n 1 --format=%b -- policies/environments/development.polar 
 
 if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}..." 
   then
