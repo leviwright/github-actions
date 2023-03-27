@@ -5,3 +5,6 @@
 # 
 
 
+actor whatever {
+
+}
