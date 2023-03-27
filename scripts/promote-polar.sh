@@ -130,7 +130,7 @@ git add -A
 git status
 
 echo "================================>>>>>>>>>"
-priorCommitMessage=git whatchanged -n 1 --format=%b -- policies/environments/development.polar 
+priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/development.polar)
 
 if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}... ${priorCommitMessage}" 
   then
