@@ -92,9 +92,12 @@ do
 
   if [ $isPastCommentSection = true ]
   then 
+    echo $declarationBodyLineCounter 'COUNTER'
+    echo $line '=================>>>>>>>>'
+    
     inputLength=${#line}
     firstCharacter={$line:0:1}
-    
+
      if [[ "$line" == *"{"* ]]
       then
        isInsideDeclarationBody=true
@@ -118,6 +121,7 @@ do
     then
      ((declarationBodyLineCounter++))
   fi
+  echo $declarationBodyLineCounter 'COUNTER'
 done < "$sourceFile"
 
 
