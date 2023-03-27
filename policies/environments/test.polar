@@ -5,3 +5,10 @@
 # 
 
 
+actor whatever {
+
+}
+
+actor Awesome {
+
+}
