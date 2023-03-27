@@ -86,10 +86,11 @@ do
   then 
      firstCharacter=${$line:0:1}
      if [[ firstCharacter == "{" || firstCharacter == "}" ]]
-     then 
+      then 
       echo $line >> ' \t '$targetFile
-    else
+      else
        echo $line >> $targetFile
+     fi
   fi
   if [ $isPastCommentSection = true ]
   then 
