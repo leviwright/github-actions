@@ -47,8 +47,8 @@ echo "Creating new branch before enacting changes..."
 branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
 
 git checkout -b $branchName
- 
-sourceFile="./policies/environments/${targetEnv}.polar" 
+  
+sourceFile="../policies/environments/${targetEnv}.polar" 
 
 echo "Clearing out contents of ${targetEnv} from location ${sourceFile}"
 isPastCommentSection=false
@@ -75,8 +75,8 @@ done < "$sourceFile"
 #sed -i '' "${lineToStart},\$d" $targetFile
 sed -i "${lineToStart},\$d" $sourceFile
 
-sourceFile="./policies/environments/${sourceEnv}.polar" 
-targetFile="./policies/environments/${targetEnv}.polar"
+sourceFile="../policies/environments/${sourceEnv}.polar" 
+targetFile="../policies/environments/${targetEnv}.polar"
 
 echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
 isPastCommentSection=false
