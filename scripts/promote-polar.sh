@@ -85,6 +85,7 @@ declarationBodyLineCounter=0
 
 while IFS= read -r line
 do
+  echo $line "++++++++++++++++++++++++++"
   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
   then 
     isPastCommentSection=true
