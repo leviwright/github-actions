@@ -82,9 +82,14 @@ echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to
 isPastCommentSection=false
 while IFS= read -r line
 do
-   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
+   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]] 
   then 
-     echo $line >> $targetFile
+     firstCharacter=${$line:0:1}
+     if [[ firstCharacter == "{" || firstCharacter == "}" ]]
+     then 
+      echo $line >> ' \t '$targetFile
+    else
+       echo $line >> $targetFile
   fi
   if [ $isPastCommentSection = true ]
   then 

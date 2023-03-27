@@ -1,16 +1,13 @@
-name: Promote latest changes to ${{ github.event.inputs.environment }} Polar File
-run-name: ${{ github.actor }} is updating polar file content in the ${{ github.event.inputs.environment }} environment. 🚀
+name: Promote Polar File From Dev to Test
+run-name: ${{ github.actor }} is updating polar file content from dev to test 🚀
 on:
   workflow_dispatch:
     inputs:
       name:
-        description: 'Promote Polar Files to the Target Environment'
-        default: 'Promote Polar Files to the Target Environment'
+        description: 'Promote Polar Files From Dev to Test'
+        default: 'Promote Polar Files From Dev to Test'
         # Input has to be provided for the workflow to run
         required: false
-      environment:
-        type: environment
-        description: Select Target Environment
 
 jobs:
   Polar_Dev_To_Test:
@@ -26,7 +23,7 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: Promote Changes to Polar File
+      - name: Promote development.polar to test.polar
         run: bash scripts/promote-polar.sh test ${{ github.actor }}
         env:
           GH_TOKEN: ${{ github.token }}
