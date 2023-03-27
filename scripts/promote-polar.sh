@@ -45,7 +45,8 @@ git pull origin main
 
 echo "Creating new branch before enacting changes..."
 uuid=$(uuidgen)
-branchName="promote-polar-${sourceEnv}-to-${targetEnv}${uuid}"
+uuid=${uuid^^}
+branchName="promote-polar-${sourceEnv}-to-${targetEnv}-${uuid}"
 
 git checkout -b $branchName
  
