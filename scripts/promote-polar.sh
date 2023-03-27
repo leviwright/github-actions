@@ -88,13 +88,13 @@ do
      echo $inputLength 'INPUT LENGTH'
      firstCharacter={$line:0:1}
      echo firstCharacter '=====>>>>>>>'
-     if [[ firstCharacter == "{" || firstCharacter == "}" ]]
+     if [[ inputLength -gt 1 && firstCharacter == "{" || firstCharacter == "}" ]]
       then 
       echo $line >> ' \t '$targetFile
       echo 'WRITING HERE ===>>>>>'
-      else
-       echo $line >> $targetFile
-       echo 'WRITING THERE =====>>>>>>>'
+     else
+      echo $line >> $targetFile
+      echo 'WRITING THERE =====>>>>>>>'
      fi
   fi
   if [ $isPastCommentSection = true ]
