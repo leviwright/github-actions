@@ -126,7 +126,14 @@ declarationBodyLineCounter=0
 
 while IFS= read -r line
 do
-  echo $line "++++++++++++++++++++++++++"
+   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
+  then 
+    isPastCommentSection=true
+  fi
+  if [ $isPastCommentSection = true ]
+  then 
+    echo $line >> $targetFile
+  fi
 done < "$sourceFile"
 
 
