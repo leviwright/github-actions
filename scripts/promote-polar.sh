@@ -86,10 +86,10 @@ do
   then 
      echo $line >> $targetFile
   fi
-  # if [ $isPastCommentSection = true ]
-  # then 
-  #   echo $line >> $targetFile
-  # fi
+  if [ $isPastCommentSection = true ]
+  then 
+    echo $line >> $targetFile
+  fi
 done < "$sourceFile"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
