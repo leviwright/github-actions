@@ -50,8 +50,7 @@ gitError=$(git pull origin pantherBoots  2>&1)
 
 echo $gitError '=================='
 
-lengthOfString=${#gitError}
-if(lengthOfString -gt 1)
+if [ -n "$gitError" ]; 
 then 
   echo $gitError
   exit 1
