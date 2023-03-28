@@ -32,21 +32,19 @@ fi
 echo "Attempting run to promote to:" $targetEnv
 echo "Run triggered by github user:" $actor
 echo "Installing github cli in order to provide easy hook for creating a pull request..."
-type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
-curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-&& sudo apt update \
-&& sudo apt install gh -y
+# type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+# curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+# && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+# && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+# && sudo apt update \
+# && sudo apt install gh -y
 
 echo "Ensure we are starting with the latest changes on the main branch..."
 git checkout main 
 git pull origin main
 
 echo "Creating new branch before enacting changes..."
-uuid=$(uuidgen)
-uuid=${uuid^^}
-branchName="promote-polar-${sourceEnv}-to-${targetEnv}-${uuid}"
+branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
 
 git checkout -b $branchName
  
@@ -149,7 +147,7 @@ git push origin $branchName
 echo "Creating pull request..."
 newLine=$'\n'
 
-if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit. ${newLine} ${newLine} prior commit message and associated info: ${newLine} ${newLine} ${priorCommitMessage}"
+if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file." --body ${priorCommitMessage}
   then
     echo "Failure: There was an issue creating a pull request." 
   exit 1
