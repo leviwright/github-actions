@@ -42,11 +42,11 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 gitError=''
 
 echo "Ensure we are starting with the latest changes on the main branch..."
-gitError=$(git checkout pantherBoots  2>&1)
+gitError=$(git checkout main  2>&1)
 
 
 
-gitError=$(git pull origin pantherBoots  2>&1)
+gitError=$(git pull origin main  2>&1)
 
 echo $gitError '=================='
 
