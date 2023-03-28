@@ -10,7 +10,6 @@ envs=( $development $test $staging $production )
 targetEnv=$1
 actor=$2
 
-
 if [ $# -ne 2 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
 then
 echo "Invalid invocation - must provide a target environment with any of the following values: 'development', 'test', 'staging' or 'production' and the github actor"
@@ -39,8 +38,16 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 && sudo apt update \
 && sudo apt install gh -y
 
+gitError=''
+
 echo "Ensure we are starting with the latest changes on the main branch..."
-git checkout main 
+
+if ! git checkout lskdjflskdjf 
+  then
+   gitError=$(git status 2>&1)
+   echo $gitError
+  exit 1
+
 git pull origin main
 
 echo "Creating new branch before enacting changes..."
@@ -128,10 +135,6 @@ do
   fi
 done < "$sourceFile"
 
-#remove added white space now that we are done reading the source file to avoid lint issues. 
-sed -i '${/^$/d;}' $sourceFile
-
-
 echo "Configuring temporary git credentials on linux box to match trigger user"
 git config user.name "$(git log -n 1 --pretty=format:%an)" #username from last commit - should always be user triggering the workflow.
 git config user.email "$(git log -n 1 --pretty=format:%ae)" #email from last commit - should always be user triggering the workflow. 
@@ -145,7 +148,6 @@ priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/d
 echo $priorCommitMessage
 
 git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}" 
-git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}"
 git status
 echo "Pushing changes to remote..."
 git push origin $branchName 
@@ -154,3 +156,16 @@ newLine=$'\n'
 gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit. ${newLine} ${newLine} prior commit message and associated info: ${newLine} ${newLine} ${priorCommitMessage}"
 
 echo "Success!"
+
+
+# if ! git push origin $branchName 
+#   then
+#     echo "Failure: There was an issue pushing changes to remote." 
+#   exit 1
+# fi
+
+
+
+
+
+
