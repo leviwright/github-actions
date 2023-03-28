@@ -43,17 +43,18 @@ gitError=''
 echo "Ensure we are starting with the latest changes on the main branch..."
 
 gitError=$(git checkout lksjdflkjsdflksjdf 2>&1)
+if {#$gitError -gt 0}
   then
    echo $gitError
   exit 1
 fi
 
-gitError=$(git pull origin lksjdflkjsdflksjdf 2>&1)
-  then
-   gitError=$(git status 2>&1)
-   echo $gitError
-  exit 1 
-fi
+# gitError=$(git pull origin lksjdflkjsdflksjdf 2>&1)
+#   then
+#    gitError=$(git status 2>&1)
+#    echo $gitError
+#   exit 1 
+# fi
 
 echo "Creating new branch before enacting changes..."
 uuid=$(uuidgen)
