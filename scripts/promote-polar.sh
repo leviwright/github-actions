@@ -48,7 +48,11 @@ if ! git checkout lskdjflskdjf
    echo $gitError
   exit 1
 
-git pull origin main
+if ! git pull origin lskdjflskdjf 
+  then
+   gitError=$(git status 2>&1)
+   echo $gitError
+  exit 1
 
 echo "Creating new branch before enacting changes..."
 uuid=$(uuidgen)
