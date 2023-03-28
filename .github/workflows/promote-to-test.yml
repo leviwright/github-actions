@@ -28,7 +28,3 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      - run: gh pr create --title "some title" --body "some commit message"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE: ${{ github.event.issue.html_url }}

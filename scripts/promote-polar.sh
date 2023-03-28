@@ -147,10 +147,10 @@ git push origin $branchName
 echo "Creating pull request..."
 newLine=$'\n'
 
-# if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file." --body ${priorCommitMessage}
-#   then
-#     echo "Failure: There was an issue creating a pull request." 
-#   exit 1
-# fi
+if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file." --body "${priorCommitMessage}"
+  then
+    echo "Failure: There was an issue creating a pull request." 
+  exit 1
+fi
 
 echo "Success!"
