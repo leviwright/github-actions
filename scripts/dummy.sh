@@ -1,9 +1,10 @@
 #! /bin/bash
 
-sed -i '' -e '$a\' dummy.polar
+{ # try
 
+    if [ 1 -gt 2 ] &&
+    echo "holy crap"
 
-while IFS= read -r line
-do
-  echo $line
-done < dummy.polar
+} || { # catch
+    echo "Caught you"
+}

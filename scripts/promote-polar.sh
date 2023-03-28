@@ -10,6 +10,7 @@ envs=( $development $test $staging $production )
 targetEnv=$1
 actor=$2
 
+
 if [ $# -ne 2 ] || [[ ! " ${envs[*]} " =~ " ${targetEnv} " ]]
 then
 echo "Invalid invocation - must provide a target environment with any of the following values: 'development', 'test', 'staging' or 'production' and the github actor"
@@ -41,32 +42,22 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 gitError=''
 
 echo "Ensure we are starting with the latest changes on the main branch..."
+gitError=$(git checkout pantherBoots  2>&1)
 
-gitError=$(git checkout lksjdflkjsdflksjdf 2>&1)
-if {#$gitError -gt 0}
-  then
-   echo $gitError
+gitError=$(git pull origin pantherBoots  2>&1)
+
+if $gitError
+then 
+  echo $gitError
   exit 1
 fi
-
-# gitError=$(git pull origin lksjdflkjsdflksjdf 2>&1)
-#   then
-#    gitError=$(git status 2>&1)
-#    echo $gitError
-#   exit 1 
-# fi
 
 echo "Creating new branch before enacting changes..."
 uuid=$(uuidgen)
 uuid=${uuid^^}
 branchName="promote-polar-${sourceEnv}-to-${targetEnv}-${uuid}"
 
-if ! git checkout -b $branchName
-  then
-   gitError=$(git status 2>&1)
-   echo $gitError
-  exit 1 
-fi
+git checkout -b $branchName
  
 sourceFile="./policies/environments/${targetEnv}.polar" 
 
@@ -147,42 +138,21 @@ do
 done < "$sourceFile"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
+git config user.name "$(git log -n 1 --pretty=format:%an)" #username from last commit - should always be user triggering the workflow.
+git config user.email "$(git log -n 1 --pretty=format:%ae)" #email from last commit - should always be user triggering the workflow. 
 
-if ! git config user.name "$(git log -n 1 --pretty=format:%an)" #username from last commit - should always be user triggering the workflow.
-  then
-   gitError=$(git status 2>&1)
-   echo $gitError
-  exit 1 
-fi
-
-if ! git config user.email "$(git log -n 1 --pretty=format:%ae)" #email from last commit - should always be user triggering the workflow.
-  then
-   gitError=$(git status 2>&1)
-   echo $gitError
-  exit 1 
-fi
- 
 echo "Adding and committing changes to new branch..."
-if ! git add -A
-  then
-   gitError=$(git status 2>&1)
-   echo $gitError
-  exit 1 
-fi
+git status
+git add -A
+git status
+
 priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/development.polar)
 echo $priorCommitMessage
 
-echo "Adding and committing changes to new branch..."
-if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}" 
-  then
-   gitError=$(git status 2>&1)
-   echo $gitError
-  exit 1 
-fi
-
+git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}" 
+git status
 echo "Pushing changes to remote..."
 git push origin $branchName 
-
 echo "Creating pull request..."
 newLine=$'\n'
 gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit. ${newLine} ${newLine} prior commit message and associated info: ${newLine} ${newLine} ${priorCommitMessage}"
@@ -190,14 +160,16 @@ gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to th
 echo "Success!"
 
 
-# if ! git push origin $branchName 
-#   then
-#     echo "Failure: There was an issue pushing changes to remote." 
-#   exit 1
-# fi
 
 
 
 
 
+{ # try
 
+    command1 &&
+    #save your output
+
+} || { # catch
+    # save log for exception 
+}
