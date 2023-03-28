@@ -46,6 +46,8 @@ gitError=$(git checkout pantherBoots  2>&1)
 
 gitError=$(git pull origin pantherBoots  2>&1)
 
+echo $gitError '=================='
+
 if $gitError
 then 
   echo $gitError
@@ -158,18 +160,3 @@ newLine=$'\n'
 gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit. ${newLine} ${newLine} prior commit message and associated info: ${newLine} ${newLine} ${priorCommitMessage}"
 
 echo "Success!"
-
-
-
-
-
-
-
-{ # try
-
-    command1 &&
-    #save your output
-
-} || { # catch
-    # save log for exception 
-}
