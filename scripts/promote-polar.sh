@@ -39,22 +39,9 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 && sudo apt update \
 && sudo apt install gh -y
 
-gitError=''
-
 echo "Ensure we are starting with the latest changes on the main branch..."
-gitError=$(git checkout main  2>&1)
-
-
-
-gitError=$(git pull origin main  2>&1)
-
-echo $gitError '=================='
-
-if [ -n "$gitError" ]; 
-then 
-  echo $gitError
-  exit 1
-fi
+git checkout main 
+git pull origin main
 
 echo "Creating new branch before enacting changes..."
 uuid=$(uuidgen)
@@ -155,10 +142,17 @@ echo $priorCommitMessage
 
 git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}" 
 git status
+
 echo "Pushing changes to remote..."
 git push origin $branchName 
+
 echo "Creating pull request..."
 newLine=$'\n'
-gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit. ${newLine} ${newLine} prior commit message and associated info: ${newLine} ${newLine} ${priorCommitMessage}"
+
+if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit. ${newLine} ${newLine} prior commit message and associated info: ${newLine} ${newLine} ${priorCommitMessage}"
+  then
+    echo "Failure: There was an issue creating a pull request." 
+  exit 1
+fi
 
 echo "Success!"
