@@ -42,14 +42,13 @@ gitError=''
 
 echo "Ensure we are starting with the latest changes on the main branch..."
 
-if ! git checkout lskdjflskdjf 
+gitError=$(git checkout lksjdflkjsdflksjdf 2>&1)
   then
-   gitError=$(git status 2>&1)
    echo $gitError
   exit 1
 fi
 
-if ! git pull origin lskdjflskdjf 
+gitError=$(git pull origin lksjdflkjsdflksjdf 2>&1)
   then
    gitError=$(git status 2>&1)
    echo $gitError
@@ -61,7 +60,12 @@ uuid=$(uuidgen)
 uuid=${uuid^^}
 branchName="promote-polar-${sourceEnv}-to-${targetEnv}-${uuid}"
 
-git checkout -b $branchName
+if ! git checkout -b $branchName
+  then
+   gitError=$(git status 2>&1)
+   echo $gitError
+  exit 1 
+fi
  
 sourceFile="./policies/environments/${targetEnv}.polar" 
 
@@ -142,21 +146,42 @@ do
 done < "$sourceFile"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
-git config user.name "$(git log -n 1 --pretty=format:%an)" #username from last commit - should always be user triggering the workflow.
-git config user.email "$(git log -n 1 --pretty=format:%ae)" #email from last commit - should always be user triggering the workflow. 
 
+if ! git config user.name "$(git log -n 1 --pretty=format:%an)" #username from last commit - should always be user triggering the workflow.
+  then
+   gitError=$(git status 2>&1)
+   echo $gitError
+  exit 1 
+fi
+
+if ! git config user.email "$(git log -n 1 --pretty=format:%ae)" #email from last commit - should always be user triggering the workflow.
+  then
+   gitError=$(git status 2>&1)
+   echo $gitError
+  exit 1 
+fi
+ 
 echo "Adding and committing changes to new branch..."
-git status
-git add -A
-git status
-
+if ! git add -A
+  then
+   gitError=$(git status 2>&1)
+   echo $gitError
+  exit 1 
+fi
 priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/development.polar)
 echo $priorCommitMessage
 
-git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}" 
-git status
+echo "Adding and committing changes to new branch..."
+if ! git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}" 
+  then
+   gitError=$(git status 2>&1)
+   echo $gitError
+  exit 1 
+fi
+
 echo "Pushing changes to remote..."
 git push origin $branchName 
+
 echo "Creating pull request..."
 newLine=$'\n'
 gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file" --body "@${actor} is promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file. These changes stem from a prior commit. ${newLine} ${newLine} prior commit message and associated info: ${newLine} ${newLine} ${priorCommitMessage}"
