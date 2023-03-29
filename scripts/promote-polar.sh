@@ -81,8 +81,6 @@ echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to
 isPastCommentSection=false
 declarationBodyLineCounter=0
 
-
-
 while IFS= read -r line
 do
   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
@@ -131,15 +129,12 @@ git status
 priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/development.polar)
 formattedPriorCommitMessage=${priorCommitMessage%$'\n'*}
 
-
 git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}" 
-git status
 
 echo "Pushing changes to remote..."
 git push origin $branchName 
 
 echo "Creating pull request..."
-
 if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file." --body "${formattedPriorCommitMessage}"
   then
     echo "Failure: There was an issue creating a pull request." 
