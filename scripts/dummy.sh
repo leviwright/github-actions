@@ -1,7 +1,12 @@
 #! /bin/bash
 
+branchName="promote-polar-development-to-test"
 
-targetFile="../policies/environments/development.polar"
-sourceFile="../policies/environments/test.polar"
+if [ `git branch -r --list "origin/${branchName}"` ]
+then
+   echo "${branchName} already exists. Merge or delete existing branch to continue."
+   exit 1
+fi
 
-cp $sourceFile $targetFile
+
+git branch --list $branchName
