@@ -6,13 +6,13 @@ on:
         description: 'Promote Polar File Contents'
         required: true
         default: 'Promote Polar File Contents'
-      # environment:
-      #   description: 'Choose an Environment'
-      #   type: environment
-      #   required: true
-      #   default: 'test'
+      environment:
+        description: 'Choose an Environment'
+        type: environment
+        required: true
+        default: 'test'
 jobs:
-  Polar_Dev_To_Test:
+  Promote_Polar_File:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was manually triggered by a ${{ github.event_name }} event."
@@ -25,8 +25,8 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: Promote development.polar to test.polar
-        run: bash scripts/promote-polar.sh test ${{ github.actor }}
+      - name: Promote polar contents to the ${{ inputs.environment }} polar file
+        run: bash scripts/promote-polar.sh ${{ inputs.environment }} ${{ github.actor }}
         env:
           GH_TOKEN: ${{ github.token }}
       - run: echo "🍏 This job's status is ${{ job.status }}."

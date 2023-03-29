@@ -55,7 +55,7 @@ git status
 git add -A
 git status
 
-priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/development.polar)
+priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/${sourceEnv}.polar)
 formattedPriorCommitMessage=${priorCommitMessage%$'\n'*}
 
 git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}" 
