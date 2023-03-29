@@ -2,10 +2,6 @@ name: Promote Polar File Contents
 on:
   workflow_dispatch:
     inputs:
-      name:
-        description: 'Promote Polar File Contents'
-        required: true
-        default: 'Promote Polar File Contents'
       environment:
         description: 'Choose an Environment'
         type: environment

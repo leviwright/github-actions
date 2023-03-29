@@ -32,13 +32,19 @@ fi
 echo "Attempting run to promote to:" $targetEnv
 echo "Run triggered by github user:" $actor
 
+branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
+echo "Checking to see if promotion branch already exists..."
+if [ `git branch --list $branchName` ]
+then
+   echo "${branchName} already exists. Merge or delete existing branch to continue."
+   exit 1
+fi
+
 echo "Ensure we are starting with the latest changes on the main branch..."
 git checkout main 
 git pull origin main
 
 echo "Creating new branch before enacting changes..."
-branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
-
 git checkout -b $branchName
  
 targetFile="./policies/environments/${targetEnv}.polar"
