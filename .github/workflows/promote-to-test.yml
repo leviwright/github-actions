@@ -1,25 +1,9 @@
-<<<<<<< Updated upstream
-name: Promote Polar File to ${{ inputs.environment }}
-run-name: ${{ github.actor }} is updating the contents of the polar file in the ${{ inputs.environment }} environment. 🚀
-on:
-  workflow_dispatch:
-    inputs:
-       #auto populates with the environments configured in our repo settings. 
-       # environment:
-       #  type: environment
-       #  description: Select Target Environment
-       name:
-        description: Promote Polar File to ${{ inputs.environment }}.
-        default: Promote Polar File to ${{ inputs.environment }}.
-        # Input has to be provided for the workflow to run. 
-=======
 name: Promote Polar File Contents
 on:
   workflow_dispatch:
     inputs:
       name:
         description: 'Promote Polar File Contents'
->>>>>>> Stashed changes
         required: true
         default: 'Promote Polar File Contents'
       environment:
