@@ -42,11 +42,11 @@ then
    exit 1
 fi
 
-thing=$(git branch -r)
+thing=$(git branch)
 
 echo $thing "==========>>>>>>"
 
-git branch -r
+git branch
 
 echo "Ensure we are starting with the latest changes on the main branch..."
 git checkout main 
