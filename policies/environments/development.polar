@@ -9,3 +9,9 @@ actor horse {
 	
 	
 }
+
+actor WHATEVER {
+	
+
+	
+}
