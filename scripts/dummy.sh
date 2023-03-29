@@ -8,5 +8,4 @@ then
    exit 1
 fi
 
-
 git branch --list $branchName
