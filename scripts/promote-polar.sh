@@ -41,83 +41,10 @@ branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
 
 git checkout -b $branchName
  
-# sourceFile="./policies/environments/${targetEnv}.polar" 
-
-# echo "Clearing out contents of ${targetEnv} from location ${sourceFile}"
-# isPastCommentSection=false
-# lineToStart=1
-# previousLineValue=''
-# while IFS= read -r line
-# do
-#     if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
-#     then
-#       isPastCommentSection=true
-#       break
-#     else
-#       ((lineToStart++))
-#     fi
-#   previousLineValue=$line
-# done < "$sourceFile"
-
-
 targetFile="./policies/environments/${targetEnv}.polar"
 sourceFile="./policies/environments/${sourceEnv}.polar"
 
-cp sourceFile targetFile
-
-#==================================================================
-# Important -- uncomment and swap the line below if running locally on mac OS for debugging purposes, 
-# the '' following the -i flag is required for Mac users because Mac OS uses the BSD version of sed that
-# works slightly different than the Linux version. Linux uses the GNU version which will behave differently 
-# with the -i flag.
-#===================================================================
-#sed -i '' "${lineToStart},\$d" $targetFile
-# sed -i "${lineToStart},\$d" $targetFile 
-
-# #ensure that we have an empty line at the end of our source file. If not, bash cannot read all the way through our contents.
-# #For development, echo "" >> $targetFile should work fine. 
-# sed -i -e '$a\' $sourceFile
-
-
-# echo "Populating contents from the ${sourceEnv} file located at ${sourceFile} to the ${targetEnv} file located at ${targetFile}. Preserving all comments."
-# isPastCommentSection=false
-# declarationBodyLineCounter=0
-
-# while IFS= read -r line
-# do
-#   if [[ "$line" != *"$commentTrigger"* ]] &&  [[ ! -z "$line" ]]
-#   then 
-#     isPastCommentSection=true
-#   fi
-
-#   if $isPastCommentSection
-#   then 
-#     inputLength=${#line}
-#     firstCharacter={$line:0:1}
-
-#      if [[ "$line" == *"{"* ]]
-#       then
-#        isInsideDeclarationBody=true
-#      fi
-
-#      if [[ $inputLength == 1 && "$line" == "}" ]]
-#       then
-#         isInsideDeclarationBody=false
-#         declarationBodyLineCounter=0
-#      fi  
- 
-#      if [[ $inputLength -gt 1 && $isInsideDeclarationBody && $declarationBodyLineCounter -gt 0 ]]
-#       then 
-#         echo "  ${line}" >> $targetFile
-#       else
-#         echo $line >> $targetFile
-#      fi
-#   if $isInsideDeclarationBody
-#     then
-#      ((declarationBodyLineCounter++))
-#   fi
-#   fi
-# done < "$sourceFile"
+cp $sourceFile $targetFile
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
 git config user.name "$(git log -n 1 --pretty=format:%an)" #username from last commit - should always be user triggering the workflow.

@@ -1,11 +1,7 @@
 #! /bin/bash
 
-newLine=$'\n'
 
+targetFile="../policies/environments/development.polar"
+sourceFile="../policies/environments/test.polar"
 
-
-priorCommitMessage="hey
-lskdjf"
-y=${priorCommitMessage%$'\n'*}
-
-echo $y
+cp $sourceFile $targetFile
