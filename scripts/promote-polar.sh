@@ -35,14 +35,12 @@ echo "Run triggered by github user:" $actor
 branchName="promote-polar-${sourceEnv}-to-${targetEnv}"
 
 echo "Checking to see if promotion branch already exists..."
-if [ `git branch -r --list ${branchName}` ]
+
+if [ `git branch -r --list "origin/${branchName}"` ]
 then
    echo "${branchName} already exists. Merge or delete existing branch to continue."
    exit 1
 fi
-
-git branch -r --list ${branchName}
-git branch -r --list "origin/${branchName}"
 
 echo "Ensure we are starting with the latest changes on the main branch..."
 git checkout main 
