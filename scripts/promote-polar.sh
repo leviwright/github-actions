@@ -51,14 +51,12 @@ git config user.name "$(git log -n 1 --pretty=format:%an)" #username from last c
 git config user.email "$(git log -n 1 --pretty=format:%ae)" #email from last commit - should always be user triggering the workflow. 
 
 echo "Adding and committing changes to new branch..."
-git status
 git add -A
-git status
 
 priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/${sourceEnv}.polar)
 formattedPriorCommitMessage=${priorCommitMessage%$'\n'*}
 
-git commit -m "${priorCommitMessage}" 
+git commit -m "${formattedPriorCommitMessage}" 
 
 echo "Pushing changes to remote..."
 git push origin $branchName 
@@ -69,5 +67,7 @@ if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents 
     echo "Failure: There was an issue creating a pull request." 
   exit 1
 fi
+
+gh pr comment "${branchName}" --body "${formattedPriorCommitMessage}"
 
 echo "Success!"
