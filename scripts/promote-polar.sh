@@ -46,6 +46,8 @@ thing=$(git branch -r)
 
 echo $thing "==========>>>>>>"
 
+git branch -r
+
 echo "Ensure we are starting with the latest changes on the main branch..."
 git checkout main 
 git pull origin main
