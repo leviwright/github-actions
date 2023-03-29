@@ -6,11 +6,11 @@ on:
         description: 'Promote Polar File Contents'
         required: true
         default: 'Promote Polar File Contents'
-      environment:
-        description: 'Choose an Environment'
-        type: environment
-        required: true
-        default: 'test'
+      # environment:
+      #   description: 'Choose an Environment'
+      #   type: environment
+      #   required: true
+      #   default: 'test'
 jobs:
   Polar_Dev_To_Test:
     runs-on: ubuntu-latest
