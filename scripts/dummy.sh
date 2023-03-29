@@ -1,10 +1,11 @@
 #! /bin/bash
 
-{ # try
+newLine=$'\n'
 
-    if [ 1 -gt 2 ] &&
-    echo "holy crap"
 
-} || { # catch
-    echo "Caught you"
-}
+
+priorCommitMessage="hey
+lskdjf"
+y=${priorCommitMessage%$'\n'*}
+
+echo $y

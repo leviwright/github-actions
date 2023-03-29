@@ -129,7 +129,7 @@ git add -A
 git status
 
 priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/development.polar)
-echo $priorCommitMessage
+formattedPriorCommitMessage=${priorCommitMessage%$'\n'*}
 
 git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}" 
 git status
@@ -138,9 +138,8 @@ echo "Pushing changes to remote..."
 git push origin $branchName 
 
 echo "Creating pull request..."
-newLine=$'\n'
 
-if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file." --body "${priorCommitMessage}"
+if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file." --body "${formattedPriorCommitMessage}"
   then
     echo "Failure: There was an issue creating a pull request." 
   exit 1
