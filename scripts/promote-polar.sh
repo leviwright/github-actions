@@ -131,6 +131,7 @@ git status
 priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/development.polar)
 formattedPriorCommitMessage=${priorCommitMessage%$'\n'*}
 
+
 git commit -m "Promoting changes from ${sourceEnv} to ${targetEnv}. Here is the prior commit and associated message: ${priorCommitMessage}" 
 git status
 
