@@ -62,12 +62,12 @@ echo "Pushing changes to remote..."
 git push origin $branchName 
 
 echo "Creating pull request..."
-if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file." --body "${formattedPriorCommitMessage}"
+if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file."
   then
     echo "Failure: There was an issue creating a pull request." 
   exit 1
 fi
 
-gh pr comment "${branchName}" --body "${formattedPriorCommitMessage}"
+# gh pr comment "${branchName}" --body "${formattedPriorCommitMessage}"
 
 echo "Success!"
