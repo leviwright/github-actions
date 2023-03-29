@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 name: Promote Polar File to ${{ inputs.environment }}
 run-name: ${{ github.actor }} is updating the contents of the polar file in the ${{ inputs.environment }} environment. 🚀
 on:
@@ -11,7 +12,21 @@ on:
         description: Promote Polar File to ${{ inputs.environment }}.
         default: Promote Polar File to ${{ inputs.environment }}.
         # Input has to be provided for the workflow to run. 
+=======
+name: Promote Polar File Contents
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Promote Polar File Contents'
+>>>>>>> Stashed changes
         required: true
+        default: 'Promote Polar File Contents'
+      environment:
+        description: 'Choose an Environment'
+        type: environment
+        required: true
+        default: 'test'
 jobs:
   Polar_Dev_To_Test:
     runs-on: ubuntu-latest
@@ -26,7 +41,7 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: Promote changes to ${{ github.event.inputs.environment }} polar file.
+      - name: Promote development.polar to test.polar
         run: bash scripts/promote-polar.sh test ${{ github.actor }}
         env:
           GH_TOKEN: ${{ github.token }}
