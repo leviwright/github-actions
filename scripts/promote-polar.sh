@@ -42,6 +42,10 @@ then
    exit 1
 fi
 
+thing=$(git branch -r --list "origin/${branchName}")
+
+echo $thing "==========>>>>>>"
+
 echo "Ensure we are starting with the latest changes on the main branch..."
 git checkout main 
 git pull origin main
