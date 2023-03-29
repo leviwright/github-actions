@@ -4,14 +4,3 @@
 actor whatever {
 
 }
-
-actor horse {
-	
-	
-}
-
-something awesome is right here {
-	
-
-	
-}
