@@ -58,7 +58,7 @@ git status
 priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/${sourceEnv}.polar)
 formattedPriorCommitMessage=${priorCommitMessage%$'\n'*}
 
-git commit -m "Promoting polar file contents from ${sourceEnv} to ${targetEnv}" 
+git commit -m "${priorCommitMessage}" 
 
 echo "Pushing changes to remote..."
 git push origin $branchName 
