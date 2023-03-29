@@ -8,8 +8,3 @@
 actor whatever {
 
 }
-
-actor horse {
-
-
-}
