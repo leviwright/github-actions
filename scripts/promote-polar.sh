@@ -42,7 +42,7 @@ then
    exit 1
 fi
 
-thing=$(git branch --list)
+thing=$(git branch -r)
 
 echo $thing "==========>>>>>>"
 
