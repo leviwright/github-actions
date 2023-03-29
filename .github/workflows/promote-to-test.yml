@@ -1,5 +1,5 @@
 name: Promote Polar File to ${{ github.event.inputs.environment }}
-run-name: ${{ github.actor }} is updating the contents of the polar file in the ${{ github.event.inputs.environment }} environment. 🚀
+run-name: ${{ github.actor }} is updating the contents of the polar file in the ${{ inputs.environment }} environment. 🚀
 on:
   workflow_dispatch:
     inputs:
