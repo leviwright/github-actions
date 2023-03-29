@@ -44,7 +44,9 @@ git checkout -b $branchName
 targetFile="./policies/environments/${targetEnv}.polar"
 sourceFile="./policies/environments/${sourceEnv}.polar"
 
+echo "Copying file contents from ${sourceEnv} polar file to the ${targetEnv} polar file..."
 cp $sourceFile $targetFile
+echo "Done!"
 
 echo "Configuring temporary git credentials on linux box to match trigger user"
 git config user.name "$(git log -n 1 --pretty=format:%an)" #username from last commit - should always be user triggering the workflow.
@@ -62,12 +64,10 @@ echo "Pushing changes to remote..."
 git push origin $branchName 
 
 echo "Creating pull request..."
-if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file."
+if ! gh pr create --title "${actor}: Promoting ${sourceEnv} polar file contents to the ${targetEnv} polar file." --body "${formattedPriorCommitMessage}"
   then
     echo "Failure: There was an issue creating a pull request." 
   exit 1
 fi
-
-# gh pr comment "${branchName}" --body "${formattedPriorCommitMessage}"
 
 echo "Success!"
