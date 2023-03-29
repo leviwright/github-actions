@@ -38,17 +38,11 @@ echo "Checking to see if promotion branch already exists..."
 
 git fetch
 
-if [ `git branch -r --list "origin/${branchName}"` ]
+if git branch -r --list "origin/${branchName}"
 then
    echo "${branchName} already exists. Merge or delete existing branch to continue."
    exit 1
 fi
-
-thing=$(git branch)
-
-echo $thing "==========>>>>>>"
-
-git branch
 
 echo "Ensure we are starting with the latest changes on the main branch..."
 git checkout main 
@@ -75,6 +69,13 @@ priorCommitMessage=$(git whatchanged -n 1 --format=%b -- policies/environments/$
 formattedPriorCommitMessage=${priorCommitMessage%$'\n'*}
 
 git commit -m "${formattedPriorCommitMessage}" 
+
+if ! git diff 
+then
+   echo "There are no commit differences between the ${sourceEnv} polar file and the ${targetEnv} polar file."
+   exit 1
+fi
+
 
 echo "Pushing changes to remote..."
 git push origin $branchName 
