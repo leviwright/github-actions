@@ -41,8 +41,8 @@ then
    exit 1
 fi
 
-echo git branch -r --list ${branchName}
-echo git branch -r --list "origin/${branchName}"
+git branch -r --list ${branchName}
+git branch -r --list "origin/${branchName}"
 
 echo "Ensure we are starting with the latest changes on the main branch..."
 git checkout main 
