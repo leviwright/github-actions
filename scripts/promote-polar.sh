@@ -38,7 +38,7 @@ echo "Checking to see if promotion branch already exists..."
 
 git fetch
 
-if git branch -r --list "origin/${branchName}"
+if [ `git branch -r --list "origin/${branchName}"` ]
 then
    echo "${branchName} already exists. Merge or delete existing branch to continue."
    exit 1
